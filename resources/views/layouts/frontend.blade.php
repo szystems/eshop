@@ -389,6 +389,7 @@
     <script src="{{ asset('fronttemplate/assets/js/jquery.elevateZoom.min.js') }}"></script>
     <script src="{{ asset('fronttemplate/assets/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('frontend/js/custom.js') }}"></script>
+    <script src="{{ asset('frontend/js/checkout.js') }}"></script>
     <!-- Main JS File -->
     <script src="{{ asset('fronttemplate/assets/js/main.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

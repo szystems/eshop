@@ -44,6 +44,8 @@ class CheckoutController extends Controller
         $order->state = $request->input('state');
         $order->country = $request->input('country');
         $order->zipcode = $request->input('zipcode');
+        $order->payment_mode = $request->input('payment_mode');
+        $order->payment_id = $request->input('payment_id');
         $order->note = $request->input('note');
         $order->tracking_no = 'eshop'.rand(1111,9999);
 
@@ -99,6 +101,51 @@ class CheckoutController extends Controller
         $cartProducts = Cart::where('user_id', Auth::id())->get();
         Cart::destroy($cartProducts);
 
+        if ($request->input('payment_mode') == "Paid by Razorpay") {
+            return response()->json(['status'=> "Order placed Sussesfully"]);
+        }
         return redirect('/')->with('status', "Order placed Sussesfully");
+    }
+
+    public function razorpaycheck(Request $request)
+    {
+        $cartitems = Cart::where('user_id', Auth::id())->get();
+        $total_price = 0;
+        foreach ($cartitems as $item) {
+            if ($item->products->discount == "1") {
+                $price = $item->products->selling_price;
+            }else {
+                $price = $item->products->original_price;
+            }
+            $total_price += $price * $item->prod_qty;
+        }
+
+        $firstname = $request->input('firstname');
+        $lastname = $request->input('lastname');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        $address1 = $request->input('address1');
+        $address2 = $request->input('address2');
+        $city = $request->input('city');
+        $state = $request->input('state');
+        $country = $request->input('country');
+        $zipcode = $request->input('zipcode');
+        $note = $request->input('note');
+
+        return response()->json([
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'phone' => $phone,
+            'address1' => $address1,
+            'address2' => $address2,
+            'city' => $city,
+            'state' => $state,
+            'country' => $country,
+            'zipcode' => $zipcode,
+            'note' => $note,
+            'total_price' => $total_price,
+        ]);
+
     }
 }

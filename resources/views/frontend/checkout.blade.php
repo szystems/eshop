@@ -47,7 +47,8 @@
                                             $names =str_word_count($usuario);
                                         @endphp
 
-                                        <input type="text" name="fname" class="form-control" placeholder="Enter First Name" value="{{ ucwords($nombre[0]) }}">{{ str_word_count($usuario); }}
+                                        <input type="text" name="fname" class="form-control firstname" placeholder="Enter First Name" value="{{ ucwords($nombre[0]) }}">
+                                        <span id="fname_error" class="text-danger" ></span>
                                         @if ($errors->has('fname'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -60,10 +61,11 @@
                                     <div class="col-sm-6">
                                         <label>Last Name *</label>
                                         @if ($names > 1)
-                                            <input type="text" name="lname" class="form-control" placeholder="Enter Last Name"  value="{{ ucwords($nombre[1]) }}">
+                                            <input type="text" name="lname" class="form-control lastname" placeholder="Enter Last Name"  value="{{ ucwords($nombre[1]) }}">
                                         @else
-                                            <input type="text" name="lname" class="form-control" placeholder="Enter Last Name">
+                                            <input type="text" name="lname" class="form-control lastname" placeholder="Enter Last Name">
                                         @endif
+                                        <span id="lname_error" class="text-danger"></span>
                                         @if ($errors->has('lname'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -75,7 +77,8 @@
 
                                     <div class="col-sm-6">
                                         <label>Email address *</label>
-                                        <input type="email" name="email" class="form-control" placeholder="Enter Email" value="{{ Auth::user()->email }}">
+                                        <input type="email" name="email" class="form-control email" placeholder="Enter Email" value="{{ Auth::user()->email }}">
+                                        <span id="email_error" class="text-danger"></span>
                                         @if ($errors->has('email'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -87,7 +90,8 @@
 
                                     <div class="col-sm-6">
                                         <label>Phone Number*</label>
-                                        <input type="tel" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{ Auth::user()->phone }}">
+                                        <input type="tel" name="phone" class="form-control phone" placeholder="Enter Phone Number" value="{{ Auth::user()->phone }}">
+                                        <span id="phone_error" class="text-danger"></span>
                                         @if ($errors->has('phone'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -103,7 +107,8 @@
                                 <input type="text" class="form-control"> --}}
 
                                 <label>Address 1 *</label>
-                                <input type="text" name="address1" class="form-control" placeholder="House number and Street name" value="{{ Auth::user()->address1 }}">
+                                <input type="text" name="address1" class="form-control address1" placeholder="House number and Street name" value="{{ Auth::user()->address1 }}">
+                                <span id="address1_error" class="text-danger"></span>
                                 @if ($errors->has('address1'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -112,14 +117,15 @@
                                             </span>
                                         @endif
                                 {{-- <input type="text" class="form-control" placeholder="Appartments, suite, unit etc ..." required> --}}
-
+                                <br>
                                 <label>Address 2</label>
-                                <input type="text" name="address2" class="form-control" placeholder="House number and Street name (optional)" value="{{ Auth::user()->address2 }}">
+                                <input type="text" name="address2" class="form-control address2" placeholder="House number and Street name (optional)" value="{{ Auth::user()->address2 }}">
 
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>Town / City *</label>
-                                        <input type="text" name="city" class="form-control" placeholder="Enter Town / City" value="{{ Auth::user()->city }}">
+                                        <input type="text" name="city" class="form-control city" placeholder="Enter Town / City" value="{{ Auth::user()->city }}">
+                                        <span id="city_error" class="text-danger"></span>
                                         @if ($errors->has('city'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -131,7 +137,8 @@
 
                                     <div class="col-sm-6">
                                         <label>State / County *</label>
-                                        <input type="text" name="state" class="form-control" placeholder="Enter State / County" value="{{ Auth::user()->state }}">
+                                        <input type="text" name="state" class="form-control state" placeholder="Enter State / County" value="{{ Auth::user()->state }}">
+                                        <span id="state_error" class="text-danger"></span>
                                         @if ($errors->has('state'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -146,7 +153,8 @@
 
                                     <div class="col-sm-6">
                                         <label>Country *</label>
-                                        <input type="text" name="country" class="form-control" placeholder="Enter Country" value="{{ Auth::user()->country }}">
+                                        <input type="text" name="country" class="form-control country" placeholder="Enter Country" value="{{ Auth::user()->country }}">
+                                        <span id="country_error" class="text-danger"></span>
                                         @if ($errors->has('country'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -158,7 +166,8 @@
 
                                     <div class="col-sm-6">
                                         <label>Postcode / ZIP *</label>
-                                        <input type="text" name="zipcode" class="form-control" placeholder="Enter Postcode / ZIP" value="{{ Auth::user()->zipcode }}">
+                                        <input type="text" name="zipcode" class="form-control zipcode" placeholder="Enter Postcode / Zipcode" value="{{ Auth::user()->zipcode }}">
+                                        <span id="zipcode_error" class="text-danger"></span>
                                         @if ($errors->has('zipcode'))
                                             <span class="help-block opacity-7">
                                                     <strong>
@@ -183,7 +192,7 @@
                                 </div><!-- End .custom-checkbox --> --}}
 
                                 <label>Order notes (optional)</label>
-                                <textarea class="form-control" name="note" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                                <textarea class="form-control note" name="note" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
                         </div><!-- End .col-lg-9 -->
                         <aside class="col-lg-3">
                             <div class="summary">
@@ -249,11 +258,16 @@
                                         <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
                                             <div class="card-body">
                                                 Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+                                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                                    <span class="btn-text">Place Order</span>
+                                                    <span class="btn-hover-text">Proceed to Checkout</span>
+                                                    <input type="hidden" name="payment_mode" value="COD or DBT">
+                                                </button>
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
 
-                                    <div class="card">
+                                    {{-- <div class="card">
                                         <div class="card-header" id="heading-2">
                                             <h2 class="card-title">
                                                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
@@ -266,18 +280,22 @@
                                                 Ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis.
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
-                                    </div><!-- End .card -->
+                                    </div><!-- End .card --> --}}
 
                                     <div class="card">
                                         <div class="card-header" id="heading-3">
                                             <h2 class="card-title">
                                                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
-                                                    Cash on delivery
+                                                    Pay on delivery
                                                 </a>
                                             </h2>
                                         </div><!-- End .card-header -->
                                         <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
-                                            <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.
+                                            <div class="card-body">Pay at the time of receiving your order either credit card or cash.
+                                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                                    <span class="btn-text">Place Order</span>
+                                                    <span class="btn-hover-text">Proceed to Checkout</span>
+                                                </button>
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
@@ -292,7 +310,7 @@
                                         </div><!-- End .card-header -->
                                         <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
                                             <div class="card-body">
-                                                Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
+                                                Make your payment with PayPal, we do not save your credentials, the payment is made directly with PayPal.
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
@@ -301,22 +319,41 @@
                                         <div class="card-header" id="heading-5">
                                             <h2 class="card-title">
                                                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+                                                    Razorpay <small class="float-right paypal-link">What is Razorpay?</small>
+                                                </a>
+                                            </h2>
+                                        </div><!-- End .card-header -->
+                                        <div id="collapse-5" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+                                            <div class="card-body">
+                                                Razorpay payments through debit/credit card, net banking (Paytm wallet), UPI (BHIM), international cards (Visa and MasterCard), and a few other payment methods.
+                                                <button type="button" class="btn btn-outline-primary-2 btn-order btn-block razorpay-btn">
+                                                    <span class="btn-text">Place Order (Razorpay)</span>
+                                                    <span class="btn-hover-text">Proceed to Checkout (Razorpay)</span>
+                                                </button>
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .collapse -->
+                                    </div><!-- End .card -->
+
+                                    <div class="card">
+                                        <div class="card-header" id="heading-6">
+                                            <h2 class="card-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-6" aria-expanded="false" aria-controls="collapse-6">
                                                     Credit Card (Stripe)
                                                     <img src="{{ asset('fronttemplate/assets/images/payments-summary.png') }}" alt="payments cards">
                                                 </a>
                                             </h2>
                                         </div><!-- End .card-header -->
-                                        <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
+                                        <div id="collapse-6" class="collapse" aria-labelledby="heading-6" data-parent="#accordion-payment">
                                             <div class="card-body"> Donec nec justo eget felis facilisis fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
                                 </div><!-- End .accordion -->
 
-                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                {{-- <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
                                     <span class="btn-text">Place Order</span>
                                     <span class="btn-hover-text">Proceed to Checkout</span>
-                                </button>
+                                </button> --}}
                             </div><!-- End .summary -->
                         </aside><!-- End .col-lg-3 -->
                     </div><!-- End .row -->
@@ -324,5 +361,9 @@
             </div><!-- End .container -->
         </div><!-- End .checkout -->
     </div><!-- End .page-content -->
+@endsection
+
+@section('scripts')
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 @endsection
 

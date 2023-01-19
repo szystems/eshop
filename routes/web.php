@@ -56,8 +56,8 @@ Route::middleware(['auth'])->group(function () {
     //User Carts
     Route::get('cart', [CartController::class, 'viewcart']);
     Route::get('checkout', [CheckoutController::class, 'index']);
-    //User Orders
     Route::post('place-order', [CheckoutController::class, 'placeorder']);
+
     Route::get('my-orders', [UserController::class, 'indexorders']);
     Route::get('view-order/{id}', [UserController::class, 'showorder']);
     //User Dashboard
@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('wishlist', [WishlistController::class, 'index']);
 
-
+    Route::post('proceed-to-pay', [CheckoutController::class, 'razorpaycheck']);
 });
 
 //Admin Dashboard
