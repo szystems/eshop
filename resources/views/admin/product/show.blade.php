@@ -76,6 +76,13 @@
                                 <label class="form-check-label" for="flexSwitchCheckDefault"><strong>Trending</strong></label>
                             </div>
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="discount"
+                                    {{ $product->discount == 1 ? 'checked' : '' }} disabled>
+                                <label class="form-check-label" for="flexSwitchCheckDefault"><strong>Discount</strong></label>
+                            </div>
+                        </div>
                         <div class="col-md-12 mb-3">
                             <label for=""><strong>Meta Title</strong></label>
                             <p>{{ $product->meta_title }}</p>

@@ -25,7 +25,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
-            <div class="row product_data">
+            <div class="row">
                 <div class="col-xl-12">
                     <div class="product-details-top">
                         <div class="row">
@@ -34,6 +34,9 @@
                                     <figure class="product-main-image">
                                         @if ($product->trending == "1")
                                             <span class="product-label label-sale">{{ $product->trending == '1'? 'Trending':''}}</span>
+                                        @endif
+                                        @if ($product->discount == "1")
+                                            <span class="product-label label-top">{{ $product->discount == '1'? '% Off':''}}</span>
                                         @endif
 
                                         <img id="product-zoom" src="{{ asset('assets/uploads/product/'.$product->image) }}" data-zoom-image="{{ asset('assets/uploads/product/'.$product->image) }}" alt="{{ $product->name }}">
@@ -53,7 +56,7 @@
                             </div><!-- End .col-lg-7 -->
 
                             <div class="col-md-6 col-lg-5">
-                                <div class="product-details">
+                                <div class="product-details product_data">
                                     <h1 class="product-title">{{ $product->name }}</h1>
                                     <h5>
                                         @if ($product->trending == '1')
@@ -75,8 +78,13 @@
                                     </div><!-- End .rating-container --> --}}
 
                                     <div class="product-price">
+                                        @if ($product->discount == "1")
                                         <span class="new-price">${{ number_format($product->selling_price,2, '.', ',') }}</span>
                                         <span class="old-price">${{ number_format($product->original_price,2, '.', ',') }}</span>
+                                        @else
+                                            <span class="new-price">${{ number_format($product->original_price,2, '.', ',') }}</span>
+                                        @endif
+
                                     </div><!-- End .product-price -->
 
                                     <div class="product-content">
@@ -114,17 +122,21 @@
                                             </select>
                                         </div><!-- End .select-custom -->
                                     </div><!-- End .details-filter-row --> --}}
-
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="qty">Qty:</label>
-                                        <div class="product-details-quantity">
-                                            <input type="hidden" value="{{ $product->id }}" class="prod_id">
-                                            <input type="number" name="quantity" class="form-control qty-input" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                        </div><!-- End .product-details-quantity -->
-                                    </div><!-- End .details-filter-row -->
+                                    @if($product->qty > 0)
+                                        <div class="details-filter-row details-row-size">
+                                            <label for="qty">Qty:</label>
+                                            <div class="product-details-quantity">
+                                                <input type="hidden" value="{{ $product->id }}" class="prod_id">
+                                                <input type="number" name="quantity" class="form-control qty-input" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                            </div><!-- End .product-details-quantity -->
+                                        </div><!-- End .details-filter-row -->
+                                    @endif
 
                                     <div class="product-details-action">
-                                        <button type="button" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
+
+                                        @if($product->qty > 0)
+                                            <button type="button" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
+                                        @endif
 
                                         <div class="details-action-wrapper">
 

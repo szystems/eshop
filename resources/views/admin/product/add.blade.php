@@ -136,6 +136,12 @@
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Trending</label>
                                 </div>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="discount" >
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Discount</label>
+                                </div>
+                            </div>
                             <div class="col-md-12 mb-3">
                                 <label for="">Meta Title</label>
                                 <input type="text" class="form-control border px-2" name="meta_title" value="{{ old('meta_title') }}" >

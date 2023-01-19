@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -27,12 +28,28 @@ class CartController extends Controller
                     return response()->json(['status' => $prod_check->name." Already Added to cart"]);
                 }else
                 {
-                    $cartItem = new Cart();
-                    $cartItem->prod_id = $product_id;
-                    $cartItem->user_id = Auth::id();
-                    $cartItem->prod_qty = $product_qty;
-                    $cartItem->save();
-                    return response()->json(['status' => $prod_check->name." Added to cart"]);
+                    if ($prod_check->qty >= $product_qty) {
+
+                        $cartItem = new Cart();
+                        $cartItem->prod_id = $product_id;
+                        $cartItem->user_id = Auth::id();
+                        $cartItem->prod_qty = $product_qty;
+                        $cartItem->save();
+
+                        if(Wishlist::where('prod_id', $product_id)->where('user_id', Auth::id())->exists())
+                        {
+
+                            $wishItem = Wishlist::where('prod_id', $product_id)->where('user_id', Auth::id())->first();
+                            $wishItem->delete();
+
+                        }
+
+                        return response()->json(['status' => $prod_check->name." Added to cart"]);
+                    }else
+                    {
+                        return response()->json(['status' => $prod_check->name." Quantity exceeds stock, availability: ".$prod_check->qty]);
+                    }
+
 
                 }
 
@@ -52,7 +69,7 @@ class CartController extends Controller
         ->join('products as p','c.prod_id','=','p.id')
         ->join('categories as cat','p.cate_id','cat.id')
         ->where('c.user_id',Auth::id())
-        ->select('c.id','c.user_id','c.prod_id as ProdID','c.prod_qty','p.name as Product','p.slug','p.small_description','p.description','p.original_price','p.selling_price','p.image','p.tax','p.status','p.trending','p.cate_id','cat.name as Category','cat.slug')
+        ->select('c.id','c.user_id','c.prod_id as ProdID','c.prod_qty','p.name as Product','p.slug as ProdSlug','p.small_description','p.description','p.original_price','p.selling_price','p.image','p.qty','p.tax','p.status','p.trending','p.discount','p.cate_id','cat.name as Category','cat.slug as CatSlug')
         ->orderBy('p.name','asc')
         ->get();
         return view('frontend.cart', compact('cartitems'));
@@ -87,11 +104,23 @@ class CartController extends Controller
         {
             if(Cart::where('prod_id', $prod_id)->where('user_id', Auth::id())->exists())
             {
-                $cart = Cart::where('prod_id', $prod_id)->where('user_id', Auth::id())->first();
-                $cart->prod_qty = $product_qty;
-                $cart->update();
-                return response()->json(['status' => "Quantity updated"]);
+                if ($product_qty > 0) {
+                    $cart = Cart::where('prod_id', $prod_id)->where('user_id', Auth::id())->first();
+                    $cart->prod_qty = $product_qty;
+                    $cart->update();
+                    return response()->json(['status' => "Quantity updated"]);
+                } else {
+                    return response()->json(['status' => "Quantity must be greater than '0'"]);
+                }
+
+
             }
         }
+    }
+
+    public function cartcount()
+    {
+        $cartcount = Cart::where('user_id', Auth::id())->count();
+        return response()->json(['count' => $cartcount]);
     }
 }

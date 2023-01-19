@@ -91,7 +91,7 @@
                             <div class="dropdown cart-dropdown">
                                 <a href="" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">0</span>
+                                    <span class="cart-count cart-count-pill">0</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -150,70 +150,119 @@
                                 </div><!-- End .dropdown-menu -->
                             </div><!-- End .cart-dropdown -->
                         @else
+                            <div class="cart-dropdown">
+                                <a href="{{ url('wishlist') }}" class="dropdown-toggle"  aria-haspopup="true" aria-expanded="false" data-display="static">
+                                    <i class="icon-heart-o"></i>
+                                    {{-- @php
+                                        $wishNum=DB::table('wishlists')
+                                        ->where('user_id','=',Auth::id())
+                                        ->get();
+                                    @endphp --}}
+                                    {{-- <span class="wish-count">0</span> --}}
+                                    <h6><span class="position-absolute badge badge-pill bg-secondary wish-count top-20 ">0</span></h6>
+                                </a>
+                            </div><!-- End .cart-dropdown -->
                             <div class="dropdown cart-dropdown">
                                 <a href="" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                     <i class="icon-shopping-cart"></i>
-                                    @php
+                                    {{-- @php
                                         $cartNum=DB::table('carts')
                                         ->where('user_id','=',Auth::id())
                                         ->get();
-                                    @endphp
-                                    <span class="cart-count">{{ $cartNum->count() }}</span>
+                                    @endphp --}}
+                                    <span class="cart-count cart-count-pill">0</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    {{-- <div class="dropdown-cart-products">
-                                        <div class="product">
-                                            <div class="product-cart-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html') }}">Beige knitted elastic runner shoes</a>
-                                                </h4>
+                                    @php
+                                    $totalCart = 0;
+                                        $cartitems = DB::table('carts as c')
+                                        ->join('products as p','c.prod_id','=','p.id')
+                                        ->join('categories as cat','p.cate_id','cat.id')
+                                        ->where('c.user_id',Auth::id())
+                                        ->select('c.id','c.user_id','c.prod_id as ProdID','c.prod_qty','p.name as Product','p.slug as ProdSlug','p.small_description','p.description','p.original_price','p.selling_price','p.image','p.qty','p.tax','p.status','p.trending','p.discount','p.cate_id','cat.name as Category','cat.slug as CatSlug')
+                                        ->orderBy('p.name','asc')
+                                        ->get();
+                                    @endphp
+                                    <div class="dropdown-cart-products">
+                                        @if ($cartitems->count() > 0)
+                                            @foreach ($cartitems as $prod)
+                                                @php
+                                                    if ($prod->discount == "1") {
+                                                        $price = $prod->selling_price;
+                                                    }else {
+                                                        $price = $prod->original_price;
+                                                    }
+                                                @endphp
+                                                <div class="product product_data">
+                                                    <div class="product-cart-details">
+                                                        <h4 class="product-title">
+                                                            <input type="hidden" class="prod_id" value="{{ $prod->ProdID }}">
+                                                            <a href="{{ url('category/'.$prod->CatSlug.'/'.$prod->ProdSlug) }}">{{ $prod->Product }}</a>
+                                                        </h4>
 
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $84.00
-                                                </span>
-                                            </div><!-- End .product-cart-details -->
+                                                        <span class="cart-product-info">
+                                                            <span class="cart-product-qty">{{ $prod->prod_qty }}</span>
+                                                            x @if ($prod->discount == "1")
+                                                                {{ number_format($prod->selling_price,2, '.', ',') }} <strike>{{ number_format($prod->original_price,2, '.', ',') }}</strike>
+                                                            @else
+                                                                {{ number_format($prod->original_price,2, '.', ',') }}
+                                                            @endif
+                                                        </span>
+                                                    </div><!-- End .product-cart-details -->
 
-                                            <figure class="product-image-container">
-                                                <a href="product.html') }}" class="product-image">
-                                                    <img src="{{ asset('fronttemplate/assets/images/products/cart/product-1.jpg') }}" alt="product">
-                                                </a>
-                                            </figure>
-                                            <a href="" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        </div><!-- End .product -->
+                                                    <figure class="product-image-container">
+                                                        <a href="{{ url('category/'.$prod->CatSlug.'/'.$prod->ProdSlug) }}" class="product-image">
+                                                            <img src="{{ asset('assets/uploads/product/'.$prod->image) }}" alt="{{ $prod->Product }}">
+                                                        </a>
+                                                    </figure>
+                                                    <button class="btn-remove delete-cart-item"><i class="icon-close"></i></button>
+                                                </div><!-- End .product -->
+                                                @php
+                                                    $totalCart +=  $price * $prod->prod_qty;
+                                                @endphp
+                                            @endforeach
+                                        @else
+                                            <div>Cart is empty.</div>
+                                        @endif
 
-                                        <div class="product">
-                                            <div class="product-cart-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html') }}">Blue utility pinafore denim dress</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $76.00
-                                                </span>
-                                            </div><!-- End .product-cart-details -->
-
-                                            <figure class="product-image-container">
-                                                <a href="product.html') }}" class="product-image">
-                                                    <img src="{{ asset('fronttemplate/assets/images/products/cart/product-2.jpg') }}" alt="product">
-                                                </a>
-                                            </figure>
-                                            <a href="" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        </div><!-- End .product -->
                                     </div><!-- End .cart-product -->
 
                                     <div class="dropdown-cart-total">
                                         <span>Total</span>
 
-                                        <span class="cart-total-price">$160.00</span>
-                                    </div><!-- End .dropdown-cart-total --> --}}
+                                        <span class="cart-total-price">{{ number_format($totalCart,2, '.', ',') }}</span>
+                                    </div><!-- End .dropdown-cart-total -->
 
                                     <div class="dropdown-cart-action">
                                         <a href="{{ url('cart') }}" class="btn btn-primary">View Cart</a>
-                                        <a href="checkout.html') }}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                        @php
+                                            $outofstock = 0;
+                                            foreach($cartitems as $item)
+                                            {
+                                                if ($item->qty < $item->prod_qty) {
+                                                    $outofstock++;
+                                                }
+                                            }
+                                        @endphp
+
+                                        @if ($cartitems->count() > 0)
+                                            @if ($outofstock > 0)
+                                                <a href="{{ url('checkout') }}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                                <br>
+                                            @else
+                                                <a href="{{ url('checkout') }}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                            @endif
+
+                                        @endif
+
                                     </div><!-- End .dropdown-cart-total -->
+                                    @if ($outofstock > 0)
+                                        <div class="alert alert-danger" role="alert">
+                                            You have <strong>{{ $outofstock }}</strong> item(s) out of stock, if you proceed it will be removed from your <a href="{{ url('cart') }}">cart</a>.
+                                        </div>
+                                    @endif
+
                                 </div><!-- End .dropdown-menu -->
                             </div><!-- End .cart-dropdown -->
 
@@ -250,12 +299,23 @@
                                     <div class="dropdown">
                                         <ul>
                                             <li>
-                                                <p><a href=""><i class="icon-user"></i><font color="black"> User</font></a></p>
-
+                                                <p><a href="{{ url('my-account') }}"><i class="icon-user"></i><font color="black"> My Account</font></a></p>
                                             </li>
                                             <li>
-                                                <p><a href="{{ url('cart') }}"><i class="icon-shopping-cart"></i><font color="black"> Cart <span class="badge badge-secondary" id="cartnum2">{{ $cartNum->count() }}</span> </font></a></p>
+                                                <p><a href="{{ url('wishlist') }}"><i class="icon-heart-o"></i><font color="black"> Whishlist <span class="badge badge-secondary wish-count"></span> </font></a></p>
                                             </li>
+                                            <li>
+                                                <p><a href="{{ url('cart') }}"><i class="icon-shopping-cart"></i><font color="black"> Cart <span class="badge badge-secondary cart-count-pill"></span></font></a></p>
+                                            </li>
+                                            <li>
+                                                <p><a href="{{ url('my-orders') }}"><i class="icon-bars"></i><font color="black"> Orders </font></a></p>
+                                            </li>
+                                            @if (Auth::user()->role_as == "1")
+                                                <li>
+                                                    <p><a href="{{ url('dashboard') }}"><i class="icon-laptop"></i><font color="black"> Admin Dashboard </font></a></p>
+                                                </li>
+                                            @endif
+
                                         </ul>
                                     </div><!-- End .dropdown-cart-total -->
                                     <div class="dropdown-cart-action">

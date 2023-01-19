@@ -1,5 +1,38 @@
 $(document).ready(function () {
 
+    loadcart();
+    loadwish();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function loadcart()
+    {
+        $.ajax({
+            type: "GET",
+            url: "/load-cart-data",
+            success: function (response) {
+                $('.cart-count-pill').html('');
+                $('.cart-count-pill').html(response.count);
+            }
+        });
+    }
+
+    function loadwish()
+    {
+        $.ajax({
+            type: "GET",
+            url: "/load-wish-data",
+            success: function (response) {
+                $('.wish-count').html('');
+                $('.wish-count').html(response.count);
+            }
+        });
+    }
+
     $('.addToCartBtn').click(function (e) {
         e.preventDefault();
 
@@ -20,16 +53,32 @@ $(document).ready(function () {
                 'product_qty': product_qty,
             },
             success: function (response) {
-                window.location.reload();
                 swal(response.status);
+                loadcart();
+                window.location.reload();
+
             }
         });
     });
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+    $('.addToWishlist').click(function (e) {
+        e.preventDefault();
+
+        var product_id = $(this).closest('.product_data').find('.prod_id').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/add-to-wishlist",
+            data: {
+                'product_id': product_id,
+            },
+            success: function (response) {
+                swal(response.status);
+                loadwish();
+                // window.location.reload();
+
+            }
+        });
     });
 
     $('.delete-cart-item').click(function (e) {
@@ -44,17 +93,40 @@ $(document).ready(function () {
                 'prod_id':prod_id,
             },
             success: function (response) {
+                loadcart();
                 window.location.reload();
-                swal("Good job!", response.status, "success");
+                //swal("Good job!", response.status, "success");
             }
         });
     });
 
-    $('.changeQuantity').click(function (e) {
+    $('.remove-wishlist-item').click(function (e) {
+        e.preventDefault();
+
+        var prod_id = $(this).closest('.product_data').find('.prod_id').val();
+
+        $.ajax({
+            type: "POST",
+            url: "delete-wishlist-item",
+            data: {
+                'prod_id':prod_id,
+            },
+            success: function (response) {
+                loadwish();
+                window.location.reload();
+                //swal("Good job!", response.status, "success");
+            }
+        });
+    });
+
+
+
+    $('.changeQuantitymas').click(function (e) {
         e.preventDefault();
 
         var prod_id = $(this).closest('.product_data').find('.prod_id').val();
         var prod_qty = $(this).closest('.product_data').find('.qty-input').val();
+        prod_qty++;
 
         data = {
             'prod_id' : prod_id,
@@ -67,7 +139,30 @@ $(document).ready(function () {
             data: data,
             success: function (response) {
                 window.location.reload();
-                swal(response.status);
+                //swal(response.status);
+            }
+        });
+    });
+
+    $('.changeQuantitymenos').click(function (e) {
+        e.preventDefault();
+
+        var prod_id = $(this).closest('.product_data').find('.prod_id').val();
+        var prod_qty = $(this).closest('.product_data').find('.qty-input').val();
+        prod_qty--;
+
+        data = {
+            'prod_id' : prod_id,
+            'prod_qty' : prod_qty,
+        },
+
+        $.ajax({
+            method: "POST",
+            url: "update-cart",
+            data: data,
+            success: function (response) {
+                window.location.reload();
+                //swal(response.status);
             }
         });
     });
@@ -99,6 +194,5 @@ $(document).ready(function () {
         }
 
     });
-
 
 });

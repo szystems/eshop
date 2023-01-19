@@ -21,63 +21,113 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <table class="table table-cart table-mobile">
-                            <thead>
-                                <tr align="center">
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
+                            @php
+                                $total = 0;
+                            @endphp
+                            @if ($cartitems->count() > 0)
+                                <thead>
+                                    <tr align="center">
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                @php
-                                    $total = 0
-                                @endphp
-                                @foreach ($cartitems as $prod)
-                                    <tr class="product_data">
-                                        <td class="product-col">
-                                            <div class="product">
-                                                <figure class="product-media">
-                                                    <a href="#">
-                                                        <img src="{{ asset('assets/uploads/product/'.$prod->image) }}"
-                                                            alt="{{ $prod->Product }}">
-                                                    </a>
-                                                </figure>
+                                <tbody>
 
-                                                <h3 class="product-title">
-
-                                                    <a href="#">{{ $prod->Product }}</a>
-                                                </h3><!-- End .product-title -->
-                                            </div><!-- End .product -->
-                                        </td>
-                                        <td class="price-col" align="center">{{ number_format($prod->selling_price,2, '.', ',') }}</td>
-                                        <td class="quantity-col">
-
-                                            <div class="input-group text-center" style="wdth:130px;">
-                                                <input type="hidden" class="prod_id" value="{{ $prod->ProdID }}">
-                                                <button class="input-group-text changeQuantity decrement-btn">-</button>
-                                                <input type="text" name="quantity" class="form-control qty-input text-center" value="{{ $prod->prod_qty }}" >
-                                                <button class="input-group-text changeQuantity increment-btn">+</button>
-                                            </div>
-                                        </td>
+                                    @foreach ($cartitems as $prod)
                                         @php
-                                            $subtotal =  $prod->selling_price * $prod->prod_qty;
+                                            if ($prod->discount == "1") {
+                                                $price = $prod->selling_price;
+                                            }else {
+                                                $price = $prod->original_price;
+                                            }
                                         @endphp
-                                        <td class="total-col" align="right">{{ number_format($subtotal,2, '.', ',') }}</td>
-                                        <td class="remove-col"><button class="btn-remove delete-cart-item"><i class="icon-close"></i></button>
-                                        </td>
-                                    </tr>'
-                                    @php
-                                        $total +=  $prod->selling_price * $prod->prod_qty;
-                                    @endphp'
-                                @endforeach
+                                        <tr class="product_data">
+                                            <td class="product-col">
+                                                <div class="product">
+                                                    <figure class="product-media">
+                                                        <a href="{{ url('category/'.$prod->CatSlug.'/'.$prod->ProdSlug) }}">
+                                                            <img src="{{ asset('assets/uploads/product/'.$prod->image) }}"
+                                                                alt="{{ $prod->Product }}">
+                                                        </a>
+                                                    </figure>
 
-                            </tbody>
+                                                    <h3 class="product-title">
+
+                                                        <a href="{{ url('category/'.$prod->CatSlug.'/'.$prod->ProdSlug) }}">{{ $prod->Product }}</a>
+                                                    </h3><!-- End .product-title -->
+                                                </div><!-- End .product -->
+                                            </td>
+                                            @if ($prod->discount == "1")
+                                                <td class="price-col" align="center">
+                                                    <font color="ef837b">{{ number_format($prod->selling_price,2, '.', ',') }}</font>
+                                                    <font color="cccccc"><strike>{{ number_format($prod->original_price,2, '.', ',') }}</strike></font>
+                                                </td>
+                                            @else
+                                                <td class="price-col" align="center"><font color="ef837b">{{ number_format($prod->original_price,2, '.', ',') }}</font></td>
+                                            @endif
+
+                                            <td class="quantity-col">
+
+                                                <div class="input-group text-center" style="wdth:130px;">
+                                                    <input type="hidden" class="prod_id" value="{{ $prod->ProdID }}">
+                                                    @if ( $prod->prod_qty >= $prod->qty)
+                                                        @if ($prod->qty == 0)
+                                                            <h6><font color="red"><strong>Out of Stock</strong></font></h6>
+                                                        @elseif ($prod->qty >= $prod->prod_qty)
+                                                            <button class="input-group-text changeQuantitymenos">-</button>
+                                                            <input readonly type="text" name="quantity" class="form-control qty-input text-center" value="{{ $prod->prod_qty }}" >
+                                                            <button disabled class="input-group-text changeQuantitymas">+</button>
+                                                            @php
+                                                                $total +=  $price * $prod->prod_qty;
+                                                            @endphp
+                                                            <p>Stock: <strong>{{ $prod->qty }}</strong></p>
+                                                        @elseif (($prod->qty < $prod->prod_qty))
+                                                            <button class="input-group-text changeQuantitymenos">-</button>
+                                                            <input readonly type="text" name="quantity" class="form-control qty-input text-center" value="{{ $prod->prod_qty }}" >
+                                                            <button disabled class="input-group-text changeQuantitymas">+</button>
+                                                            @php
+                                                                $total +=  $price * $prod->prod_qty;
+                                                            @endphp
+                                                            <h6><font color="orange"><strong>Exceeds stock</strong></font></h6>
+                                                            <p>Stock: <strong>{{ $prod->qty }}</strong></p>
+                                                        @endif
+
+                                                    @elseif ($prod->qty > 0)
+                                                        <button class="input-group-text changeQuantitymenos">-</button>
+                                                        <input readonly type="text" name="quantity" class="form-control qty-input text-center" value="{{ $prod->prod_qty }}" >
+                                                        <button  class="input-group-text changeQuantitymas">+</button>
+                                                        <p>Stock: <strong>{{ $prod->qty }}</strong></p>
+                                                    @php
+                                                        $total +=  $price * $prod->prod_qty;
+                                                    @endphp
+                                                    @endif
+                                                    @php
+                                                        $subtotal =  $price * $prod->prod_qty;
+                                                    @endphp
+                                                </div>
+                                            </td>
+
+                                            <td class="total-col" align="right">{{ number_format($subtotal,2, '.', ',') }}</td>
+                                            <td class="remove-col">
+                                                <button class="btn-remove delete-cart-item"><i class="icon-close"></i></button>
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
+
+                                </tbody>
+                            @else
+                                <h3>Cart is empty</h3>
+                                <a href="{{ url('category') }}" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
+                            @endif
+
                         </table><!-- End .table table-wishlist -->
 
-                        <div class="cart-bottom">
+                        {{-- <div class="cart-bottom">
                             <div class="cart-discount">
                                 <form action="#">
                                     <div class="input-group">
@@ -90,9 +140,8 @@
                                 </form>
                             </div><!-- End .cart-discount -->
 
-                            <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i
-                                    class="icon-refresh"></i></a>
-                        </div><!-- End .cart-bottom -->
+                            <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>
+                        </div><!-- End .cart-bottom --> --}}
                     </div><!-- End .col-lg-9 -->
                     <aside class="col-lg-3">
                         <div class="summary summary-cart">
@@ -104,7 +153,7 @@
                                         <td>Subtotal:</td>
                                         <td>{{ number_format($total,2, '.', ',') }}</td>
                                     </tr><!-- End .summary-subtotal -->
-                                    <tr class="summary-shipping">
+                                    {{-- <tr class="summary-shipping">
                                         <td>Shipping:</td>
                                         <td>&nbsp;</td>
                                     </tr>
@@ -148,21 +197,38 @@
                                     <tr class="summary-shipping-estimate">
                                         <td>Estimate for Your Country<br> <a href="dashboard.html">Change address</a></td>
                                         <td>&nbsp;</td>
-                                    </tr><!-- End .summary-shipping-estimate -->
+                                    </tr><!-- End .summary-shipping-estimate --> --}}
 
                                     <tr class="summary-total">
                                         <td>Total:</td>
-                                        <td>$160.00</td>
+                                        <td>{{ number_format($total,2, '.', ',') }}</td>
                                     </tr><!-- End .summary-total -->
                                 </tbody>
                             </table><!-- End .table table-summary -->
+                            @if ($cartitems->count() > 0)
+                                @php
+                                    $outofstock = 0;
+                                    foreach($cartitems as $item)
+                                    {
+                                        if ($item->qty < $item->prod_qty) {
+                                            $outofstock++;
+                                        }
+                                    }
+                                @endphp
+                                @if ($outofstock > 0)
+                                    <a href="{{ url('checkout') }}" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                    <div class="alert alert-danger" role="alert">
+                                        You have <strong>{{ $outofstock }}</strong> item(s) out of stock, if you proceed it will be removed from your cart.
+                                    </div>
+                                @else
+                                    <a href="{{ url('checkout') }}" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                @endif
 
-                            <a href="checkout.html" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                                CHECKOUT</a>
+                            @endif
+
                         </div><!-- End .summary -->
 
-                        <a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
-                                SHOPPING</span><i class="icon-refresh"></i></a>
+                        <a href="{{ url('category') }}" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
                     </aside><!-- End .col-lg-3 -->
                 </div><!-- End .row -->
             </div><!-- End .container -->

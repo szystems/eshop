@@ -7,13 +7,13 @@
                 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
             </ol> --}}
-            <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+            <h6 class="font-weight-bolder mb-0">E-Shop Dashboard</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <div class="input-group input-group-outline">
-                    <label class="form-label">Search...</label>
-                    <input type="text" class="form-control">
+                    {{-- <label class="form-label">Search...</label>
+                    <input type="text" class="form-control"> --}}
                 </div>
             </div>
             <ul class="navbar-nav  justify-content-end">
@@ -28,24 +28,27 @@
                     <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline d-none">Usuario</span>
+                        @php
+                            $usuario = Auth::user()->name; $nombre = explode(' ',trim($usuario));
+                        @endphp
+                        <span class="d-sm-inline d-none">{{ ucwords($nombre[0]) }}</span>
                     </a>
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ url('show-user/'.Auth::id()) }}">
                                 <div class="d-flex py-1">
-                                    <div class="my-auto">
+                                    {{-- <div class="my-auto">
                                         <img src="{{ asset('dashtemplate/assets/img/team-2.jpg') }}"
                                             class="avatar avatar-sm  me-3 ">
-                                    </div>
+                                    </div> --}}
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold"> Profile</span> otto Szarata Maldonado
+                                            <span class="font-weight-bold"> Profile</span>
                                         </h6>
                                         <p class="text-xs text-secondary mb-0">
                                             <i class="fa fa-user me-1"></i>
-                                            Otto Szarata Maldonado
+                                            {{ Auth::user()->name }}
                                         </p>
                                     </div>
                                 </div>

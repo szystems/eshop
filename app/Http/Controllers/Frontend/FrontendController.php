@@ -13,7 +13,8 @@ class FrontendController extends Controller
     {
         $trending = Product::where('trending','1')->where('status','1')->take(15)->orderby('name','asc')->get();
         $popular = Category::where('popular','1')->where('status','1')->take(15)->orderby('name','asc')->get();
-        return view('frontend.index', compact('trending','popular'));
+        $discount = Product::where('discount','1')->where('status','1')->take(15)->orderby('name','asc')->get();
+        return view('frontend.index', compact('trending','popular','discount'));
     }
 
     public function category()

@@ -37,6 +37,9 @@
                                             @if ($prod->trending == "1")
                                                 <span class="product-label label-sale">{{ $prod->trending == '1'? 'Trending':''}}</span>
                                             @endif
+                                            @if ($prod->discount == "1")
+                                                <span class="product-label label-top">{{ $prod->discount == '1'? '% Off':''}}</span>
+                                            @endif
                                             {{-- <span class="product-label label-new">New</span> --}}
                                             <a href="{{ url('category/'.$category->slug.'/'.$prod->slug) }}">
                                                 <img src="{{ asset('assets/uploads/product/'.$prod->image) }}" alt="Product image" class="product-image">
@@ -47,10 +50,15 @@
                                                 <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
                                                 <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
                                             </div><!-- End .product-action-vertical --> --}}
-
-                                            <div class="product-action">
-                                                <button href="#" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
-                                            </div><!-- End .product-action -->
+                                            @if ($prod->qty > 0)
+                                                <div class="product-action">
+                                                    <button href="#" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
+                                                </div><!-- End .product-action -->
+                                            @else
+                                                <div class="product-action">
+                                                    <a href="{{ url('category/'.$prod->category->slug.'/'.$prod->slug) }}" class="btn-product"><i class="icon-search"></i><span> View Details...</span></a>
+                                                </div><!-- End .product-action -->
+                                            @endif
                                         </figure><!-- End .product-media -->
 
                                         <div class="product-body">
@@ -59,11 +67,21 @@
                                                 <input type="hidden" value="1" class="qty-input">
                                                 <a href="{{ url('view-category/'.$category->slug) }}">{{ $category->name }}</a>
                                             </div><!-- End .product-cat -->
-                                            <h3 class="product-title"><a href="{{ url('category/'.$category->slug.'/'.$prod->slug) }}">{{ $prod->name }}{{ $products->count() }}</a></h3><!-- End .product-title -->
+                                            <h3 class="product-title"><a href="{{ url('category/'.$category->slug.'/'.$prod->slug) }}">{{ substr($prod->name, 0, 30) }}...</a></h3><!-- End .product-title -->
                                             <div class="product-price">
-                                                <span class="new-price">${{ number_format($prod->original_price,2, '.', ',') }}</span>
-                                                <span class="old-price"><strike>${{ number_format($prod->selling_price,2, '.', ',') }}</strike></span>
+                                                @if ($prod->discount == "1")
+                                                    <span class="new-price">${{ number_format($prod->selling_price,2, '.', ',') }}</span>
+                                                    <span class="old-price"><strike>${{ number_format($prod->original_price,2, '.', ',') }}</strike></span>
+
+                                                @else
+                                                    <span class="new-price">${{ number_format($prod->original_price,2, '.', ',') }}</span>
+                                                @endif
                                             </div><!-- End .product-price -->
+                                            @if($prod->qty > 0)
+                                                <span class="badge badge-success">In stock</span>
+                                            @else
+                                                <span class="badge badge-danger">out of stock</span>
+                                            @endif
                                             {{-- <div class="ratings-container">
                                                 <div class="ratings">
                                                     <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
