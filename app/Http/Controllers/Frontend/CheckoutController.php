@@ -101,10 +101,10 @@ class CheckoutController extends Controller
         $cartProducts = Cart::where('user_id', Auth::id())->get();
         Cart::destroy($cartProducts);
 
-        if ($request->input('payment_mode') == "Paid by Razorpay") {
+        if ($request->input('payment_mode') == "Paid by Razorpay" || $request->input('payment_mode')== "Paid by Paypal" ) {
             return response()->json(['status'=> "Order placed Sussesfully"]);
         }
-        return redirect('/')->with('status', "Order placed Sussesfully");
+        return redirect('/my-orders')->with('status', "Order placed Sussesfully");
     }
 
     public function razorpaycheck(Request $request)

@@ -34,6 +34,7 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tracking Number</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Total</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Payment Mode</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
                                         </tr>
                                     </thead>
@@ -44,6 +45,7 @@
                                             <td class="align-middle text-center text-sm"><strong><a href="{{ url('show-order/'.$order->id) }}">{{ $order->tracking_no }}</a></strong></td>
                                             <td class="align-middle text-center text-sm">{{ number_format($order->total_price,2, '.', ',') }}</td>
                                             <td class="align-middle text-center text-sm">{{ $order->status == '0' ?'Pending' : 'Completed' }}</td>
+                                            <td class="align-middle text-center text-sm">{{ $order->payment_mode }} @if ($order->payment_id != null)  ({{ $order->payment_id }}) @endif</td>
                                             <td class="align-middle text-center text-sm">
                                                 <a href="{{ url('admin/show-order/'.$order->id) }}" type="button" class="btn btn-info"><i class="material-icons">visibility</i></a>
                                                 {{-- <a href="{{ url('edit-product/'.$order->id) }}" type="button" class="btn btn-warning"><i class="material-icons">edit</i></a>

@@ -137,11 +137,8 @@
                                         @if($product->qty > 0)
                                             <button type="button" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
                                         @endif
-
                                         <div class="details-action-wrapper">
-
-                                            <a class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                                            {{-- <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a> --}}
+                                            <a href="#" class="btn-product btn-wishlist addToWishlist" title="Wishlist"><span>Add to Wishlist</span></a>
                                         </div><!-- End .details-action-wrapper -->
                                     </div><!-- End .product-details-action -->
 

@@ -83,6 +83,16 @@
                                 <button type="submit" class="btn btn-warning px-7">Update</button>
                             </form>
                         </div>
+                        <div class="col-md-3 mb-3">
+                            <label for=""><strong>Payment Mode</strong></label>
+                            <p>{{ $order->payment_mode }}</p>
+                        </div>
+                        @if ($order->payment_id != null)
+                            <div class="col-md-3 mb-3">
+                                <label for=""><strong>Payment ID</strong></label>
+                                <p>{{ $order->payment_id }}</p>
+                            </div>
+                        @endif
                         <div class="col-md-2 mb-3">
 
                         </div>

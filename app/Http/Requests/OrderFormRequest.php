@@ -33,6 +33,7 @@ class OrderFormRequest extends FormRequest
             'state'=>'required|max:191',
             'country'=>'required|max:191',
             'zipcode'=>'required|max:191',
+            'note'=>'max:191',
         ];
     }
 }

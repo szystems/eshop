@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $('.razorpay-btn').click(function (e) {
         e.preventDefault();
 
@@ -113,7 +114,7 @@ $(document).ready(function () {
             $('#zipcode_error').html('');
         }
 
-        if(fname_error != '' || lname_error != '' || email_error || phone_error != '' || address1_error != '' || city_error != '' || state_error != '' || country_error != '' || zipcode_error != '')
+        if(fname_error != '' || lname_error != '' || email_error != '' || phone_error != '' || address1_error != '' || city_error != '' || state_error != '' || country_error != '' || zipcode_error != '')
         {
             return false;
         }else
@@ -153,7 +154,7 @@ $(document).ready(function () {
                                 url: "/place-order",
                                 data: {
                                     'fname' :response.firstname,
-                                    'laname' :response.lastname,
+                                    'lname' :response.lastname,
                                     'email' :response.email,
                                     'phone' :response.phone,
                                     'address1' :response.address1,
@@ -186,5 +187,6 @@ $(document).ready(function () {
                 }
             });
         }
+
     });
 });

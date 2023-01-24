@@ -59,6 +59,9 @@
                                                     <a href="{{ url('category/'.$prod->category->slug.'/'.$prod->slug) }}" class="btn-product"><i class="icon-search"></i><span> View Details...</span></a>
                                                 </div><!-- End .product-action -->
                                             @endif
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon addToWishlist btn-wishlist"><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
                                         </figure><!-- End .product-media -->
 
                                         <div class="product-body">
@@ -82,6 +85,7 @@
                                             @else
                                                 <span class="badge badge-danger">out of stock</span>
                                             @endif
+                                            <button class="btn addToWishlist btn-primary-2">+ Add<i class="icon-heart-o"></i></button>
                                             {{-- <div class="ratings-container">
                                                 <div class="ratings">
                                                     <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->

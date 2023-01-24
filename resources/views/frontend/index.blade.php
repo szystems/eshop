@@ -329,9 +329,9 @@
                                     @endif
                                 </a>
 
-                                {{-- <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
-                                </div><!-- End .product-action-vertical --> --}}
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon addToWishlist btn-wishlist"><span>add to wishlist</span></a>
+                                </div><!-- End .product-action-vertical -->
                             </figure><!-- End .product-media -->
 
                             <div class="product-body">
@@ -353,6 +353,8 @@
                                 @else
                                     <span class="badge badge-danger">out of stock</span>
                                 @endif
+
+                                <button class="btn addToWishlist btn-primary-2">+ Add<i class="icon-heart-o"></i></button>
                             </div><!-- End .product-body -->
                             @if ($prod->qty > 0)
                                 <div class="product-action">

@@ -109,6 +109,19 @@
                                             <p>{{ $orders->note }}</p>
                                         </div><!-- End .col-sm-6 -->
                                     @endif
+                                    @if ($orders->payment_mode != null)
+                                        <div class="col-sm-3">
+                                            <label><strong>Payment Mode</strong></label>
+                                            <p>{{ $orders->payment_mode }}</p>
+                                        </div><!-- End .col-sm-6 -->
+                                    @endif
+                                    @if ($orders->payment_id != null)
+                                        <div class="col-sm-3">
+                                            <label><strong>Payment ID</strong></label>
+                                            <p>{{ $orders->payment_id }}</p>
+                                        </div><!-- End .col-sm-6 -->
+                                    @endif
+
 
                                 </div><!-- End .row -->
                                 <div class="row">
