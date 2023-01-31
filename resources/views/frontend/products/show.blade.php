@@ -58,6 +58,104 @@
                             <div class="col-md-6 col-lg-5">
                                 <div class="product-details product_data">
                                     <h1 class="product-title">{{ $product->name }}</h1>
+                                    @php
+                                        $rating = number_format($rating_value)*20;
+                                    @endphp
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: {{ $rating }}%;"></div>
+                                    </div><!-- End .ratings -->
+                                        <!-- Button trigger modal -->
+                                        <a type="button" data-toggle="modal" data-target="#exampleModal">
+                                            <p><u>Rate Product</u></p><!-- End .ratings-val -->
+                                        </a>
+                                        <div class="rating">
+                                            <span>{{ $ratings->count() }} Ratings</span>
+                                        </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Rate {{ $product->name }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="{{ url('/add-rating') }}" method="POST">
+                                                @csrf
+                                                <div class="modal-body">
+
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                    <p>User Rating: {{ $user_rating }}</p>
+                                                    <div align="center">
+                                                        {{-- <input type="radio" value="1" name="product_rating" checked id="rating1">
+                                                        <label for="rating1" class="fa fa-star"></label>
+                                                        <input type="radio" value="2" name="product_rating" id="rating2">
+                                                        <label for="rating2" class="fa fa-star"></label>
+                                                        <input type="radio" value="3" name="product_rating" id="rating3">
+                                                        <label for="rating3" class="fa fa-star"></label>
+                                                        <input type="radio" value="4" name="product_rating" id="rating4">
+                                                        <label for="rating4" class="fa fa-star"></label>
+                                                        <input type="radio" value="5" name="product_rating" id="rating5">
+                                                        <label for="rating5" class="fa fa-star"></label> --}}
+
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="product_rating" id="rating1" value="1" @if($user_rating == 1) checked @endif>
+                                                            <label class="form-check-label" for="rating1">
+                                                                <div class="ratings">
+                                                                    <div class="ratings-val" style="width: 20%;"></div>
+                                                                </div><!-- End .ratings -->
+                                                            </label>
+                                                        </div>
+                                                        <br>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="product_rating" id="rating2" value="2" @if($user_rating == 2) checked @endif>
+                                                            <label class="form-check-label" for="rating2">
+                                                                <div class="ratings">
+                                                                    <div class="ratings-val" style="width: 40%;"></div>
+                                                                </div><!-- End .ratings -->
+                                                            </label>
+                                                        </div>
+                                                        <br>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="product_rating" id="rating3" value="3" @if($user_rating == 3) checked @endif>
+                                                            <label class="form-check-label" for="rating3">
+                                                                <div class="ratings">
+                                                                    <div class="ratings-val" style="width: 60%;"></div>
+                                                                </div><!-- End .ratings -->
+                                                            </label>
+                                                        </div>
+                                                        <br>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="product_rating" id="rating4" value="4" @if($user_rating == 4) checked @endif>
+                                                            <label class="form-check-label" for="rating4">
+                                                                <div class="ratings">
+                                                                    <div class="ratings-val" style="width: 80%;"></div>
+                                                                </div><!-- End .ratings -->
+                                                            </label>
+                                                        </div>
+                                                        <br>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="product_rating" id="rating5" value="5" @if($user_rating == 5) checked @endif>
+                                                            <label class="form-check-label" for="rating5">
+                                                                <div class="ratings">
+                                                                    <div class="ratings-val" style="width: 100%;"></div>
+                                                                </div><!-- End .ratings -->
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-secondary">Rate</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <!-- end Modal -->
                                     <h5>
                                         @if ($product->trending == '1')
                                             <span class="badge badge-danger">Trending</span>
@@ -68,6 +166,7 @@
                                             <span class="badge badge-danger">out of stock</span>
                                         @endif
                                     </h5>
+
                                     <!-- End .product-title -->
 
                                     {{-- <div class="ratings-container">

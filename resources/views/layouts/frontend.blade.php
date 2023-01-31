@@ -35,6 +35,8 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('fronttemplate/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('fronttemplate/assets/css/plugins/nouislider/nouislider.css') }}">
+
+    {{-- <link href="{{ asset('frontend/css/custom.css') }}" rel="stylesheet"> --}}
 </head>
 
 <body>

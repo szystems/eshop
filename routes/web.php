@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\Frontend\RatingController;
 
 use App\Models\Order;
 
@@ -60,6 +61,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('my-orders', [UserController::class, 'indexorders']);
     Route::get('view-order/{id}', [UserController::class, 'showorder']);
+
+    Route::post('add-rating', [RatingController::class, 'add']);
+
     //User Dashboard
     Route::get('my-account', [UserController::class, 'indexuser']);
     Route::get('user-details/{id}', [UserController::class, 'showuser']);
