@@ -65,12 +65,9 @@
                                         <div class="ratings-val" style="width: {{ $rating }}%;"></div>
                                     </div><!-- End .ratings -->
                                         <!-- Button trigger modal -->
-                                        <a type="button" data-toggle="modal" data-target="#exampleModal">
-                                            <p><u>Rate Product</u></p><!-- End .ratings-val -->
+                                        <a type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
+                                            <p>({{ $ratings->count() }}) <u>Rate Product </u></p><!-- End .ratings-val -->
                                         </a>
-                                        <div class="rating">
-                                            <span>{{ $ratings->count() }} Ratings</span>
-                                        </div>
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,8 +84,9 @@
                                                 <div class="modal-body">
 
                                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                    <p>User Rating: {{ $user_rating }}</p>
+
                                                     <div align="center">
+                                                        <p><u>User Rating: </u></p>
                                                         {{-- <input type="radio" value="1" name="product_rating" checked id="rating1">
                                                         <label for="rating1" class="fa fa-star"></label>
                                                         <input type="radio" value="2" name="product_rating" id="rating2">
