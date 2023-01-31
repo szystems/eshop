@@ -66,7 +66,7 @@
                                     </div><!-- End .ratings -->
                                         <!-- Button trigger modal -->
                                         <a type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
-                                            <p>({{ $ratings->count() }}) <u>Rate Product </u></p><!-- End .ratings-val -->
+                                            <p>({{ $ratings->count() }}) <u>Rate & review Product </u></p><!-- End .ratings-val -->
                                         </a>
 
                                     <!-- Modal -->
@@ -86,7 +86,7 @@
                                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                                                     <div align="center">
-                                                        <p><u>User Rating: </u></p>
+                                                        <p><u>Your Rating: </u></p>
                                                         {{-- <input type="radio" value="1" name="product_rating" checked id="rating1">
                                                         <label for="rating1" class="fa fa-star"></label>
                                                         <input type="radio" value="2" name="product_rating" id="rating2">
@@ -141,6 +141,10 @@
                                                                     <div class="ratings-val" style="width: 100%;"></div>
                                                                 </div><!-- End .ratings -->
                                                             </label>
+                                                        </div>
+                                                        <div class="col-md-12 mb-3" align="left">
+                                                            <label for="">Your Review:</label>
+                                                            <textarea name="review" rows="3" class="form-control border px-2" placeholder="Write a review...">@if($user_review != null) {{ $user_review }} @endif</textarea>
                                                         </div>
                                                     </div>
 
@@ -322,44 +326,79 @@
                                             </div><!-- End .collapse -->
                                         </div><!-- End .card -->
 
-                                        {{-- <div class="card card-box card-sm">
+                                        <div class="card card-box card-sm">
                                             <div class="card-header" id="product-review-heading">
                                                 <h2 class="card-title">
                                                     <a role="button" data-toggle="collapse" href="#product-accordion-review" aria-expanded="true" aria-controls="product-accordion-review">
-                                                        Reviews (2)
+                                                        Reviews ({{ $ratings->count() }})
                                                     </a>
                                                 </h2>
                                             </div><!-- End .card-header -->
                                             <div id="product-accordion-review" class="collapse show" aria-labelledby="product-review-heading" data-parent="#product-accordion">
                                                 <div class="card-body">
                                                     <div class="reviews">
-                                                        <div class="review">
-                                                            <div class="row no-gutters">
-                                                                <div class="col-auto">
-                                                                    <h4><a href="#">Samanta J.</a></h4>
-                                                                    <div class="ratings-container">
-                                                                        <div class="ratings">
-                                                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                                                        </div><!-- End .ratings -->
-                                                                    </div><!-- End .rating-container -->
-                                                                    <span class="review-date">6 days ago</span>
-                                                                </div><!-- End .col -->
-                                                                <div class="col">
-                                                                    <h4>Good, perfect size</h4>
+                                                        @foreach ($ratings as $review)
 
-                                                                    <div class="review-content">
-                                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
-                                                                    </div><!-- End .review-content -->
 
-                                                                    <div class="review-action">
-                                                                        <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                                                        <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                                    </div><!-- End .review-action -->
-                                                                </div><!-- End .col-auto -->
-                                                            </div><!-- End .row -->
-                                                        </div><!-- End .review -->
+                                                            <div class="review">
+                                                                <div class="row no-gutters">
+                                                                    <div class="col-auto">
+                                                                        <h4><a href="#">{{ $review->user->name }}</a></h4>
+                                                                        <div class="ratings-container">
+                                                                            @php
+                                                                                //stars rated for user
+                                                                                $user_rating = number_format($review->stars_rated)*20;
+                                                                                //time lapsed between today and coment
+                                                                                $strTimeAgo = "";
+                                                                                if(!empty($review->updated_at)) {
+                                                                                        $strTimeAgo = $review->updated_at;
+                                                                                }
+                                                                                    $timestamp = strtotime($strTimeAgo);
 
-                                                        <div class="review">
+                                                                                    $strTime = array("segundo", "minuto", "hora", "dia", "mes", "año");
+                                                                                    $length = array("60","60","24","30","12","10");
+
+                                                                                    $currentTime = time();
+                                                                                    if($currentTime >= $timestamp) {
+                                                                                        $diff     = time()- $timestamp;
+                                                                                            for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
+                                                                                            $diff = $diff / $length[$i];
+                                                                                        }
+
+                                                                                        $diff = round($diff);
+                                                                                        $reviewtimeago =  "Hace ". $diff." ". $strTime[$i]."(s)";
+                                                                                    }
+                                                                            @endphp
+                                                                            <div class="ratings">
+                                                                                <div class="ratings-val" style="width: {{ $user_rating }}%;"></div><!-- End .ratings-val -->
+                                                                            </div><!-- End .ratings -->
+                                                                        </div><!-- End .rating-container -->
+                                                                        <span class="review-date">{{ $reviewtimeago }}</span>
+                                                                    </div><!-- End .col -->
+                                                                    <div class="col">
+                                                                        {{-- <h4>Good, perfect size</h4> --}}
+
+                                                                        <div class="review-content">
+                                                                            <p>{{ $review->review }}</p>
+                                                                        </div><!-- End .review-content -->
+
+                                                                        @if(Auth::id() == $review->user_id)
+                                                                        <a type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
+                                                                            <p><u>Edit Rate & review Product </u></p><!-- End .ratings-val -->
+                                                                        </a>
+                                                                        @endif
+
+                                                                        {{-- <div class="review-action">
+                                                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                                                        </div><!-- End .review-action --> --}}
+                                                                    </div><!-- End .col-auto -->
+                                                                </div><!-- End .row -->
+                                                            </div><!-- End .review -->
+
+                                                        @endforeach
+
+                                                        {{-- <div class="review">
                                                             <div class="row no-gutters">
                                                                 <div class="col-auto">
                                                                     <h4><a href="#">John Doe</a></h4>
@@ -383,11 +422,11 @@
                                                                     </div><!-- End .review-action -->
                                                                 </div><!-- End .col-auto -->
                                                             </div><!-- End .row -->
-                                                        </div><!-- End .review -->
+                                                        </div><!-- End .review --> --}}
                                                     </div><!-- End .reviews -->
                                                 </div><!-- End .card-body -->
                                             </div><!-- End .collapse -->
-                                        </div><!-- End .card --> --}}
+                                        </div><!-- End .card -->
                                     </div><!-- End .accordion -->
                                 </div><!-- End .product-details -->
                             </div><!-- End .col-lg-5 -->

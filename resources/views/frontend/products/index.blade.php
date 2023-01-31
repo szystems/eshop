@@ -68,6 +68,32 @@
                                             <div class="product-cat">
                                                 <input type="hidden" value="{{ $prod->id }}" class="prod_id">
                                                 <input type="hidden" value="1" class="qty-input">
+                                                @php
+                                                    $product_ratings=DB::table('ratings')
+                                                    ->where('prod_id','=',$prod->id)
+                                                    ->get();
+                                                    $ratingsum = 0;
+                                                    foreach ($product_ratings as $rating) {
+                                                        $ratingsum = $ratingsum + $rating->stars_rated;
+                                                    }
+
+                                                    if ($product_ratings->count() > 0) {
+                                                        $rating_value = $ratingsum/$product_ratings->count();
+                                                    } else {
+                                                        $rating_value = 0;
+                                                    }
+                                                    $rating_stars = number_format($rating_value)*20;
+                                                @endphp
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: {{ $rating_stars }}%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-text">
+                                                        <a href="{{ url('category/'.$prod->category->slug.'/'.$prod->slug) }}">
+                                                            ( {{ $product_ratings->count() }} Reviews )
+                                                        </a>
+                                                    </span>
+                                                </div><!-- End .rating-container -->
                                                 <a href="{{ url('view-category/'.$category->slug) }}">{{ $category->name }}</a>
                                             </div><!-- End .product-cat -->
                                             <h3 class="product-title"><a href="{{ url('category/'.$category->slug.'/'.$prod->slug) }}">{{ substr($prod->name, 0, 30) }}...</a></h3><!-- End .product-title -->

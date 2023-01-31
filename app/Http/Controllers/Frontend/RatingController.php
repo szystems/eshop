@@ -14,6 +14,7 @@ class RatingController extends Controller
     public function add(Request $request)
     {
         $stars_rated = $request->input('product_rating');
+        $review = $request->input('review');
         $product_id = $request->input('product_id');
 
         $product_check = Product::where('id', $product_id)->where('status','1')->first();
@@ -28,12 +29,14 @@ class RatingController extends Controller
                 if ($existing_rating) {
                     $update_rating = Rating::where('prod_id', $product_id)->where('user_id', Auth::id())->first();
                     $update_rating->stars_rated = $stars_rated;
+                    $update_rating->review = $review;
                     $update_rating->update();
                 }else {
                     Rating::create([
                         'user_id' => Auth::id(),
                         'prod_id' => $product_id,
-                        'stars_rated' => $stars_rated
+                        'stars_rated' => $stars_rated,
+                        'review' => $review
                     ]);
                 }
             }else{

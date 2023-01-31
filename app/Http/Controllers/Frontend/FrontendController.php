@@ -54,8 +54,10 @@ class FrontendController extends Controller
                 if ($verified_purchase->count() > 0) {
                     $user_rating_values = Rating::where('prod_id', $product->id)->where('user_id', Auth::id())->first();
                     $user_rating = $user_rating_values->stars_rated;
+                    $user_review = $user_rating_values->review;
                 }else {
                     $user_rating = 0;
+                    $user_review = null;
                 }
 
 
@@ -66,7 +68,7 @@ class FrontendController extends Controller
                 }
 
 
-                return view('frontend.products.show', compact('product','ratings','rating_value','user_rating'));
+                return view('frontend.products.show', compact('product','ratings','rating_value','user_rating','user_review'));
             }
             else
             {

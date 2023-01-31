@@ -13,6 +13,12 @@ class Rating extends Model
     protected $fillable = [
         'user_id',
         'prod_id',
-        'stars_rated'
+        'stars_rated',
+        'review'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
