@@ -36,6 +36,13 @@
     <link rel="stylesheet" href="{{ asset('fronttemplate/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('fronttemplate/assets/css/plugins/nouislider/nouislider.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        .whatsapp-chat{
+            bottom: 10px;
+            left: 50px;
+            position: fixed;
+        }
+    </style>
 
     {{-- <link href="{{ asset('frontend/css/custom.css') }}" rel="stylesheet"> --}}
 </head>
@@ -384,6 +391,11 @@
         </div>
     </div> --}}
     <!-- Plugins JS File -->
+    <div class="whatsapp-chat">
+        <a href="https://wa.me/50242153288?text=I'm%20interested%20in%20your%20car%20for%20sale" target="_blank">
+            <img src="{{ asset('assets/imgs/logow.png') }}" alt="whatsapp-chat" height="100px" width="100px">
+        </a>
+    </div>
     <script src="{{ asset('fronttemplate/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('fronttemplate/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('fronttemplate/assets/js/jquery.hoverIntent.min.js') }}"></script>
@@ -394,11 +406,25 @@
     <script src="{{ asset('fronttemplate/assets/js/jquery.elevateZoom.min.js') }}"></script>
     <script src="{{ asset('fronttemplate/assets/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('frontend/js/custom.js') }}"></script>
+    {{-- <script src="{{ asset('frontend/css/custom.css') }}"></script> --}}
     <script src="{{ asset('frontend/js/checkout.js') }}"></script>
     <!-- Main JS File -->
     <script src="{{ asset('fronttemplate/assets/js/main.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/63dae358474251287910fb32/1go7gg4im';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
     <script>
 
         var availableTags = [];

@@ -28,4 +28,10 @@
     transition: 0.3s ease;
 }
 
+.whatsapp-chat{
+    bottom: 10px;
+    left: 10px;
+    position: fixed;
+}
+
 /* End of Star Rating */
