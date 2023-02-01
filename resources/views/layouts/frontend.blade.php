@@ -35,6 +35,7 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('fronttemplate/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('fronttemplate/assets/css/plugins/nouislider/nouislider.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
     {{-- <link href="{{ asset('frontend/css/custom.css') }}" rel="stylesheet"> --}}
 </head>
@@ -81,13 +82,15 @@
 
                     <div class="header-right">
                         <div class="header-search">
-                            <a href="" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                            <form action="{{ url('buscarproducto') }}" method="POST">
+                                {{ csrf_field() }}
+                                <a  class="search-toggle active" role="button" title="Search"><i class="icon-search"></i></a>
+                                <div class="header-search-wrapper show">
+                                    <label class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="product_name" id="search_product" placeholder="Search Products..." required>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
+
                         </div><!-- End .header-search -->
                         @if (Auth::guest())
                             <div class="dropdown cart-dropdown">
@@ -395,6 +398,29 @@
     <!-- Main JS File -->
     <script src="{{ asset('fronttemplate/assets/js/main.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+
+        var availableTags = [];
+        $.ajax({
+            method: "GET",
+            url: "/product-list",
+            success: function (response) {
+                //console.log(response);
+                startAutoComplete(response);
+            }
+        });
+
+        function startAutoComplete(availableTags)
+        {
+            $( "#search_product" ).autocomplete({
+                source: availableTags
+            });
+        }
+
+
+    </script>
+
     @if (session('status'))
     <script>
         swal("{{ session('status') }}");

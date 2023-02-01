@@ -53,9 +53,14 @@ $(document).ready(function () {
                 'product_qty': product_qty,
             },
             success: function (response) {
-                swal(response.status);
                 loadcart();
-                window.location.reload();
+
+                swal(response.status)
+                .then((value) => {
+                    window.location.reload();
+                  });
+
+
 
             }
         });
@@ -94,8 +99,11 @@ $(document).ready(function () {
             },
             success: function (response) {
                 loadcart();
-                window.location.reload();
-                //swal("Good job!", response.status, "success");
+
+                swal(response.status)
+                .then((value) => {
+                    window.location.reload();
+                  });
             }
         });
     });
@@ -113,8 +121,11 @@ $(document).ready(function () {
             },
             success: function (response) {
                 loadwish();
-                window.location.reload();
                 //swal("Good job!", response.status, "success");
+                swal(response.status)
+                .then((value) => {
+                    window.location.reload();
+                  });
             }
         });
     });
@@ -138,8 +149,11 @@ $(document).ready(function () {
             url: "update-cart",
             data: data,
             success: function (response) {
-                window.location.reload();
-                //swal(response.status);
+
+                swal(response.status)
+                .then((value) => {
+                    window.location.reload();
+                  });
             }
         });
     });
@@ -161,8 +175,10 @@ $(document).ready(function () {
             url: "update-cart",
             data: data,
             success: function (response) {
-                window.location.reload();
-                //swal(response.status);
+                swal(response.status)
+                .then((value) => {
+                    window.location.reload();
+                  });
             }
         });
     });
