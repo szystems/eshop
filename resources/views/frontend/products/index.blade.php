@@ -51,17 +51,31 @@
                                                 <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
                                             </div><!-- End .product-action-vertical --> --}}
                                             @if ($prod->qty > 0)
-                                                <div class="product-action">
-                                                    <button href="#" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
-                                                </div><!-- End .product-action -->
+                                                @if (Auth::guest())
+                                                    <div class="product-action">
+                                                        <button href="#signin-modal" data-toggle="modal" href="#" class="btn-product btn-cart"><span>add to cart</span></button>
+                                                    </div><!-- End .product-action -->
+                                                @else
+                                                    <div class="product-action">
+                                                        <button href="#" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
+                                                    </div><!-- End .product-action -->
+                                                @endif
+
                                             @else
                                                 <div class="product-action">
                                                     <a href="{{ url('category/'.$prod->category->slug.'/'.$prod->slug) }}" class="btn-product"><i class="icon-search"></i><span> View Details...</span></a>
                                                 </div><!-- End .product-action -->
                                             @endif
-                                            <div class="product-action-vertical">
-                                                <a href="#" class="btn-product-icon addToWishlist btn-wishlist"><span>add to wishlist</span></a>
-                                            </div><!-- End .product-action-vertical -->
+                                            @if (Auth::guest())
+                                                <div class="product-action-vertical">
+                                                    <a href="#signin-modal" data-toggle="modal" class="btn-product-icon addToWishlist btn-wishlist"><span>add to wishlist</span></a>
+                                                </div><!-- End .product-action-vertical -->
+                                            @else
+                                                <div class="product-action-vertical">
+                                                    <a href="#" class="btn-product-icon addToWishlist btn-wishlist"><span>add to wishlist</span></a>
+                                                </div><!-- End .product-action-vertical -->
+                                            @endif
+
                                         </figure><!-- End .product-media -->
 
                                         <div class="product-body">
@@ -111,7 +125,13 @@
                                             @else
                                                 <span class="badge badge-danger">out of stock</span>
                                             @endif
-                                            <button class="btn addToWishlist btn-primary-2">+ Add<i class="icon-heart-o"></i></button>
+
+                                            @if (Auth::guest())
+                                                <button href="#signin-modal" data-toggle="modal" class="btn addToWishlist btn-primary-2">+ Add<i class="icon-heart-o"></i></button>
+                                            @else
+                                                <button class="btn addToWishlist btn-primary-2">+ Add<i class="icon-heart-o"></i></button>
+                                            @endif
+
                                             {{-- <div class="ratings-container">
                                                 <div class="ratings">
                                                     <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->

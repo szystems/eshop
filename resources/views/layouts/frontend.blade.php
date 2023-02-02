@@ -118,7 +118,7 @@
                                                     <span class="cart-product-qty">1</span>
                                                     x $84.00
                                                 </span>
-                                            </div><!-- End .product-cart-details -->
+                                            </div><!-- End .product-cart-details -->r e
 
                                             <figure class="product-image-container">
                                                 <a href="product.html') }}" class="product-image">

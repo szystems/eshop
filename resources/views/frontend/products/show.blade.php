@@ -236,10 +236,20 @@
                                     <div class="product-details-action">
 
                                         @if($product->qty > 0)
-                                            <button type="button" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
+                                            @if (Auth::guest())
+                                                <button href="#signin-modal" data-toggle="modal" type="button" class="btn-product btn-cart"><span>add to cart</span></button>
+                                            @else
+                                                <button type="button" class="btn-product btn-cart addToCartBtn"><span>add to cart</span></button>
+                                            @endif
+
                                         @endif
                                         <div class="details-action-wrapper">
-                                            <a href="#" class="btn-product btn-wishlist addToWishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                            @if (Auth::guest())
+                                                <a href="#signin-modal" data-toggle="modal" class="btn-product btn-wishlist addToWishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                            @else
+                                                <a href="#" class="btn-product btn-wishlist addToWishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                            @endif
+
                                         </div><!-- End .details-action-wrapper -->
                                     </div><!-- End .product-details-action -->
 
