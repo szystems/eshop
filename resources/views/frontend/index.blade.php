@@ -193,10 +193,10 @@
                                 <!-- End .product-title -->
                                 <div class="product-price">
                                     @if ($prod->discount == "1")
-                                        <span class="new-price">${{ number_format($prod->selling_price,2, '.', ',') }}</span>
-                                        <span class="old-price"><strike>${{ number_format($prod->original_price,2, '.', ',') }}</strike></span>
+                                        <span class="new-price">{{ $config->currency_simbol }}{{ number_format($prod->selling_price,2, '.', ',') }}</span>
+                                        <span class="old-price"><strike>{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</strike></span>
                                     @else
-                                        <span class="new-price">${{ number_format($prod->original_price,2, '.', ',') }}</span>
+                                        <span class="new-price">{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</span>
                                     @endif
 
                                 </div><!-- End .product-price -->
@@ -416,10 +416,10 @@
                                 <!-- End .product-title -->
                                 <div class="product-price">
                                     @if ($prod->discount == "1")
-                                        <span class="new-price">${{ number_format($prod->selling_price,2, '.', ',') }}</span>
-                                        <span class="old-price"><strike>${{ number_format($prod->original_price,2, '.', ',') }}</strike></span>
+                                        <span class="new-price">{{ $config->currency_simbol }}{{ number_format($prod->selling_price,2, '.', ',') }}</span>
+                                        <span class="old-price"><strike>{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</strike></span>
                                     @else
-                                        <span class="new-price">${{ number_format($prod->original_price,2, '.', ',') }}</span>
+                                        <span class="new-price">{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</span>
                                     @endif
 
                                 </div><!-- End .product-price -->

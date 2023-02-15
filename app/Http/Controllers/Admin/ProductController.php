@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Config;
 use App\Models\Category;
 use App\Http\Requests\ProductFormRequest;
 use Illuminate\Support\Facades\File;
 use DB;
+use PDF;
 
 class ProductController extends Controller
 {
@@ -16,22 +18,25 @@ class ProductController extends Controller
     {
         $products=DB::table('products as p')
             ->join('categories as c','p.cate_id','=','c.id')
-            ->select('p.id','c.id as Idcategory','c.name as Category','p.name','p.description','original_price','selling_price','p.image')
+            ->select('p.id','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
             ->orderBy('p.name','asc')
             ->paginate(20);
-        return view('admin.product.index', compact('products'));
+        $config = Config::first();
+        return view('admin.product.index', compact('products','config'));
     }
 
     public function show($id)
     {
         $product = Product::find($id);
-        return view('admin.product.show', compact('product'));
+        $config = Config::first();
+        return view('admin.product.show', compact('product','config'));
     }
 
     public function add()
     {
         $categories = Category::all();
-        return view('admin.product.add', compact('categories'));
+        $config = Config::first();
+        return view('admin.product.add', compact('categories','config'));
     }
 
     public function insert(ProductFormRequest $request)
@@ -63,6 +68,8 @@ class ProductController extends Controller
         $product->meta_description = $request->input('meta_description');
         $product->save();
 
+        $config = Config::first();
+
         return redirect('products')->with('status', "Product Added Successfully");
     }
 
@@ -70,7 +77,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $categories = Category::all();
-        return view('admin.product.edit', \compact('product','categories'));
+
+        $config = Config::first();
+
+        return view('admin.product.edit', \compact('product','categories','config'));
     }
 
     public function update(ProductFormRequest $request, $id)
@@ -123,5 +133,33 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect('products')->with('status',"Product Deleted Successfully");
+    }
+
+    public function pdf()
+    {
+        $products=DB::table('products as p')
+        ->join('categories as c','p.cate_id','=','c.id')
+        ->select('p.id','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
+        ->orderBy('p.name','asc')
+        ->get();
+
+        $verpdf = "Browser";
+        $nompdf = date('m/d/Y g:ia');
+        $path = public_path('assets/uploads/product/');
+
+        $config = Config::first();
+
+        if ( $verpdf == "Download" )
+        {
+            $pdf = PDF::loadView('admin.product.pdf',['products'=>$products,'path'=>$path,'config'=>$config]);
+
+            return $pdf->download ('Product_list'.$nompdf.'.pdf');
+        }
+        if ( $verpdf == "Browser" )
+        {
+            $pdf = PDF::loadView('admin.product.pdf',['products'=>$products,'path'=>$path,'config'=>$config]);
+
+            return $pdf->stream ('Product_list'.$nompdf.'.pdf');
+        }
     }
 }

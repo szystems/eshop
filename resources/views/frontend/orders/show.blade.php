@@ -169,11 +169,11 @@
                                                     </td>
                                                     @if ($item->discount == "1")
                                                         <td class="price-col" align="center">
-                                                            <font color="ef837b">{{ number_format($item->price,2, '.', ',') }}</font>
-                                                            <font color="cccccc"><strike>{{ number_format($item->original_price,2, '.', ',') }}</strike></font>
+                                                            <font color="ef837b">{{ $config->currency_simbol }}{{ number_format($item->price,2, '.', ',') }}</font>
+                                                            <font color="cccccc"><strike>{{ $config->currency_simbol }}{{ number_format($item->original_price,2, '.', ',') }}</strike></font>
                                                         </td>
                                                     @else
-                                                        <td class="price-col" align="center"><font color="ef837b">{{ number_format($item->price,2, '.', ',') }}</font></td>
+                                                        <td class="price-col" align="center"><font color="ef837b">{{ $config->currency_simbol }}{{ number_format($item->price,2, '.', ',') }}</font></td>
                                                     @endif
 
                                                     <td class="quantity-col text-center">
@@ -184,7 +184,7 @@
                                                             @endphp
                                                     </td>
 
-                                                    <td class="total-col" align="right">{{ number_format($subtotal,2, '.', ',') }}</td>
+                                                    <td class="total-col" align="right">{{ $config->currency_simbol }}{{ number_format($subtotal,2, '.', ',') }}</td>
                                                 </tr>
 
                                             @endforeach
@@ -196,7 +196,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td align="center"><h4>Total: </h4></td>
-                                                <td align="right"><h4><font color="cc9c94"> {{ number_format($total,2, '.', ',') }}</font></h4></td>
+                                                <td align="right"><h4><font color="cc9c94"> {{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</font></h4></td>
                                             </tr>
                                         </tfoot>
 

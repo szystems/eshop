@@ -47,12 +47,12 @@
                             <textarea rows="3" class="form-control border px-2" readonly>{{ $product->description }}</textarea>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for=""><strong>Original Price</strong></label>
-                            <p>{{ number_format($product->original_price,2, '.', ',') }}</p>
+                            <label for=""><strong>Price</strong></label>
+                            <p>{{ $config->currency_simbol }}{{ number_format($product->original_price,2, '.', ',') }}</p>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for=""><strong>Selling Price</strong></label>
-                            <p>{{ number_format($product->selling_price,2, '.', ',') }}</p>
+                            <label for=""><strong>Discount Price</strong></label>
+                            <p>{{ $config->currency_simbol }}{{ number_format($product->selling_price,2, '.', ',') }}</p>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for=""><strong>Quantity</strong></label>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Wishlist;
+use App\Models\Config;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -72,7 +73,8 @@ class CartController extends Controller
         ->select('c.id','c.user_id','c.prod_id as ProdID','c.prod_qty','p.name as Product','p.slug as ProdSlug','p.small_description','p.description','p.original_price','p.selling_price','p.image','p.qty','p.tax','p.status','p.trending','p.discount','p.cate_id','cat.name as Category','cat.slug as CatSlug')
         ->orderBy('p.name','asc')
         ->get();
-        return view('frontend.cart', compact('cartitems'));
+        $config = Config::first();
+        return view('frontend.cart', compact('cartitems','config'));
     }
 
     public function deleteproduct(Request $request)

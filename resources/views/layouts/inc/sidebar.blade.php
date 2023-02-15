@@ -12,7 +12,7 @@
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ Request::is('/') ? 'active bg-gradient-info':''  }}"
                     href="{{ url('/') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -20,7 +20,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Shop</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="nav-link text-white {{ Request::is('dashboard') ? 'active bg-gradient-info':''  }}"
                     href="{{ url('/dashboard') }}">
@@ -62,6 +62,14 @@
                     <span class="nav-link-text ms-1">Users</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ Request::is('config') ? 'active bg-gradient-info':''  }}" href="{{ url('config') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">settings</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Settings</span>
+                </a>
+            </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account</h6>
             </li>
@@ -96,7 +104,7 @@
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
-          <a class="btn bg-gradient-primary mt-4 w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+          <a class="btn bg-gradient-primary mt-4 w-100" href="{{ url('/') }}" type="button"><i class="material-icons opacity-10">storefront</i> Go to E-Shop</a>
         </div>
     </div>
 </aside>

@@ -55,11 +55,11 @@
                                 </td>
                                 @if ($prod->discount == "1")
                                     <td class="price-col">
-                                        <font color="ef837b">{{ number_format($prod->selling_price,2, '.', ',') }}</font>
-                                        <font color="cccccc"><strike>{{ number_format($prod->original_price,2, '.', ',') }}</strike></font>
+                                        <font color="ef837b">{{ $config->currency_simbol }}{{ number_format($prod->selling_price,2, '.', ',') }}</font>
+                                        <font color="cccccc"><strike>{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</strike></font>
                                     </td>
                                 @else
-                                    <td class="price-col"><font color="ef837b">{{ number_format($prod->original_price,2, '.', ',') }}</font></td>
+                                    <td class="price-col"><font color="ef837b">{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</font></td>
                                 @endif
                                 @if ($prod->qty == 0)
                                     <td class="stock-col"><span class="out-of-stock">Out of stock</span></td>

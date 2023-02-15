@@ -43,7 +43,7 @@
                                         <tr align="center">
                                             <td class="align-middle text-center text-sm">{{ date('d-m-Y', strtotime($order->created_at)) }}</td>
                                             <td class="align-middle text-center text-sm"><strong><a href="{{ url('show-order/'.$order->id) }}">{{ $order->tracking_no }}</a></strong></td>
-                                            <td class="align-middle text-center text-sm">{{ number_format($order->total_price,2, '.', ',') }}</td>
+                                            <td class="align-middle text-center text-sm">{{ $config->currency_simbol }}{{ number_format($order->total_price,2, '.', ',') }}</td>
                                             <td class="align-middle text-center text-sm">{{ $order->status == '0' ?'Pending' : 'Completed' }}</td>
                                             <td class="align-middle text-center text-sm">{{ $order->payment_mode }} @if ($order->payment_id != null)  ({{ $order->payment_id }}) @endif</td>
                                             <td class="align-middle text-center text-sm">

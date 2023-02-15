@@ -238,12 +238,12 @@
                                                 </td>
                                                 @if ($item->products->discount == '1')
                                                     <td>{{ $item->prod_qty }} x
-                                                        {{ number_format($item->products->selling_price, 2, '.', ',') }}
-                                                        <strike>{{ number_format($item->products->original_price, 2, '.', ',') }}</strike>
+                                                        {{ $config->currency_simbol }}{{ number_format($item->products->selling_price, 2, '.', ',') }}
+                                                        <strike>{{ $config->currency_simbol }}{{ number_format($item->products->original_price, 2, '.', ',') }}</strike>
                                                     </td>
                                                 @else
                                                     <td>{{ $item->prod_qty }} x
-                                                        {{ number_format($item->products->original_price, 2, '.', ',') }}
+                                                        {{ $config->currency_simbol }}{{ number_format($item->products->original_price, 2, '.', ',') }}
                                                     </td>
                                                 @endif
 
@@ -254,7 +254,7 @@
                                         @endforeach
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
-                                            <td>{{ number_format($total, 2, '.', ',') }}</td>
+                                            <td>{{ $config->currency_simbol }}{{ number_format($total, 2, '.', ',') }}</td>
                                         </tr><!-- End .summary-subtotal -->
                                         <tr>
                                             <td>Shipping:</td>
@@ -262,7 +262,7 @@
                                         </tr>
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td>{{ number_format($total, 2, '.', ',') }}</td>
+                                            <td>{{ $config->currency_simbol }}{{ number_format($total, 2, '.', ',') }}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->

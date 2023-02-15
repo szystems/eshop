@@ -180,10 +180,10 @@
 
                                     <div class="product-price">
                                         @if ($product->discount == "1")
-                                        <span class="new-price">${{ number_format($product->selling_price,2, '.', ',') }}</span>
-                                        <span class="old-price">${{ number_format($product->original_price,2, '.', ',') }}</span>
+                                        <span class="new-price">{{ $config->currency_simbol }}{{ number_format($product->selling_price,2, '.', ',') }}</span>
+                                        <span class="old-price">{{ $config->currency_simbol }}{{ number_format($product->original_price,2, '.', ',') }}</span>
                                         @else
-                                            <span class="new-price">${{ number_format($product->original_price,2, '.', ',') }}</span>
+                                            <span class="new-price">{{ $config->currency_simbol }}{{ number_format($product->original_price,2, '.', ',') }}</span>
                                         @endif
 
                                     </div><!-- End .product-price -->

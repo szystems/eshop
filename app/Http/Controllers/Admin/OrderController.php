@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Config;
 use DB;
 
 class OrderController extends Controller
@@ -12,7 +13,8 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::where('status','0')->get();
-        return view('admin.orders.index', compact('orders'));
+        $config = Config::first();
+        return view('admin.orders.index', compact('orders','config'));
     }
 
     public function show($id)
@@ -25,7 +27,8 @@ class OrderController extends Controller
         ->select('o.id','o.prod_id as ProdID','o.qty','o.price','p.name as Product','p.slug as ProdSlug','p.small_description','p.description','p.original_price','p.selling_price','p.image','p.tax','p.status','p.trending','o.discount','p.cate_id','cat.name as Category','cat.slug as CatSlug')
         ->orderBy('p.name','asc')
         ->get();
-        return view('admin.orders.show', compact('order','orderItems'));
+        $config = Config::first();
+        return view('admin.orders.show', compact('order','orderItems','config'));
     }
 
     public function updateorder(Request $request, $id)
@@ -39,6 +42,7 @@ class OrderController extends Controller
     public function orderhistory()
     {
         $orders = Order::where('status','1')->get();
-        return view('admin.orders.history', compact('orders'));
+        $config = Config::first();
+        return view('admin.orders.history', compact('orders','config'));
     }
 }

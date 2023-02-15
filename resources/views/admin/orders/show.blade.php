@@ -143,13 +143,13 @@
                                             </td>
                                             @if ($item->discount == "1")
                                             <td class="align-middle text-center">
-                                                {{ number_format($item->price,2, '.', ',') }} <br>
-                                                <span class="text-secondary text-xs font-weight-normal"><strike>{{ number_format($item->original_price,2, '.', ',') }}</strike></span>
+                                                {{ $config->currency_simbol }}{{ number_format($item->price,2, '.', ',') }} <br>
+                                                <span class="text-secondary text-xs font-weight-normal"><strike>{{ $config->currency_simbol }}{{ number_format($item->original_price,2, '.', ',') }}</strike></span>
 
                                             </td>
                                             @else
                                                 <td class="align-middle text-center">
-                                                    {{ number_format($item->price,2, '.', ',') }}
+                                                    {{ $config->currency_simbol }}{{ number_format($item->price,2, '.', ',') }}
 
                                                 </td>
                                             @endif
@@ -161,7 +161,7 @@
                                                 @endphp
                                             </td>
                                             <td class="align-middle text-center">
-                                                {{ number_format($subtotal,2, '.', ',') }}
+                                                {{ $config->currency_simbol }}{{ number_format($subtotal,2, '.', ',') }}
                                             </td>
                                             {{-- <td class="align-middle text-center">
                                                 {{ number_format($subtotal,2, '.', ',') }}
@@ -174,7 +174,7 @@
                                         <td></td>
                                         <td></td>
                                         <td class="align-middle text-center"></td>
-                                        <td class="align-middle text-center">Total: <strong>{{ number_format($total,2, '.', ',') }}</strong></td>
+                                        <td class="align-middle text-center">Total: <strong>{{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>

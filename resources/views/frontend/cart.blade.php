@@ -63,11 +63,11 @@
                                             </td>
                                             @if ($prod->discount == "1")
                                                 <td class="price-col" align="center">
-                                                    <font color="ef837b">{{ number_format($prod->selling_price,2, '.', ',') }}</font>
-                                                    <font color="cccccc"><strike>{{ number_format($prod->original_price,2, '.', ',') }}</strike></font>
+                                                    <font color="ef837b">{{ $config->currency_simbol }}{{ number_format($prod->selling_price,2, '.', ',') }}</font>
+                                                    <font color="cccccc"><strike>{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</strike></font>
                                                 </td>
                                             @else
-                                                <td class="price-col" align="center"><font color="ef837b">{{ number_format($prod->original_price,2, '.', ',') }}</font></td>
+                                                <td class="price-col" align="center"><font color="ef837b">{{ $config->currency_simbol }}{{ number_format($prod->original_price,2, '.', ',') }}</font></td>
                                             @endif
 
                                             <td class="quantity-col">
@@ -111,7 +111,7 @@
                                                 </div>
                                             </td>
 
-                                            <td class="total-col" align="right">{{ number_format($subtotal,2, '.', ',') }}</td>
+                                            <td class="total-col" align="right">{{ $config->currency_simbol }}{{ number_format($subtotal,2, '.', ',') }}</td>
                                             <td class="remove-col">
                                                 <button class="btn-remove delete-cart-item"><i class="icon-close"></i></button>
                                             </td>
@@ -151,7 +151,7 @@
                                 <tbody>
                                     <tr class="summary-subtotal">
                                         <td>Subtotal:</td>
-                                        <td>{{ number_format($total,2, '.', ',') }}</td>
+                                        <td>{{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</td>
                                     </tr><!-- End .summary-subtotal -->
                                     {{-- <tr class="summary-shipping">
                                         <td>Shipping:</td>
@@ -201,7 +201,7 @@
 
                                     <tr class="summary-total">
                                         <td>Total:</td>
-                                        <td>{{ number_format($total,2, '.', ',') }}</td>
+                                        <td>{{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</td>
                                     </tr><!-- End .summary-total -->
                                 </tbody>
                             </table><!-- End .table table-summary -->

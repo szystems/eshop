@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Rating;
 use App\Models\Order;
+use App\Models\Config;
 use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
@@ -17,7 +18,8 @@ class FrontendController extends Controller
         $trending = Product::where('trending','1')->where('status','1')->take(15)->orderby('name','asc')->get();
         $popular = Category::where('popular','1')->where('status','1')->take(15)->orderby('name','asc')->get();
         $discount = Product::where('discount','1')->where('status','1')->take(15)->orderby('name','asc')->get();
-        return view('frontend.index', compact('trending','popular','discount'));
+        $config = Config::first();
+        return view('frontend.index', compact('trending','popular','discount','config'));
     }
 
     public function category()
@@ -32,7 +34,8 @@ class FrontendController extends Controller
         {
             $category = Category::where('slug', $slug)->first();
             $products = Product::where('cate_id', $category->id)->where('status','1')->orderby('name','asc')->get();
-            return view('frontend.products.index', compact('category','products'));
+            $config = Config::first();
+            return view('frontend.products.index', compact('category','products','config'));
         }
         else
         {
@@ -67,8 +70,8 @@ class FrontendController extends Controller
                     $rating_value = 0;
                 }
 
-
-                return view('frontend.products.show', compact('product','ratings','rating_value','user_rating','user_review'));
+                $config = Config::first();
+                return view('frontend.products.show', compact('product','ratings','rating_value','user_rating','user_review','config'));
             }
             else
             {

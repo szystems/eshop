@@ -92,8 +92,11 @@
                                 @endif
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="">Original Price</label>
-                                <input type="number" class="form-control border px-2 " name="original_price" value="{{ old('original_price') }}" >
+                                <label for="">Price</label>
+                                <div class="input-group input-group-dynamic mb-4">
+                                    <span class="input-group-text">{{ $config->currency_simbol }}</span>
+                                    <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="original_price" value="{{ old('original_price') }}">
+                                </div>
                                 @if ($errors->has('original_price'))
                                     <span class="help-block opacity-7">
                                             <strong>
@@ -103,8 +106,11 @@
                                 @endif
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="">Selling Price</label>
-                                <input type="number" class="form-control border px-2 " name="selling_price" value="{{ old('selling_price') }}" >
+                                <label for="">Discount Price</label>
+                                <div class="input-group input-group-dynamic mb-4">
+                                    <span class="input-group-text">{{ $config->currency_simbol }}</span>
+                                    <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="selling_price" value="{{ old('selling_price') }}">
+                                </div>
                                 @if ($errors->has('selling_price'))
                                     <span class="help-block opacity-7">
                                             <strong>

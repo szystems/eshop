@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderItem;
 use App\Models\User;
+use App\Models\Config;
 use App\Http\Requests\UserFormRequest;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -18,7 +19,8 @@ class UserController extends Controller
     {
         $orders = Order::where('user_id', Auth::id())->get();
         $cartProducts = Cart::where('user_id', Auth::id())->get();
-        return view('frontend.orders.index', compact('orders','cartProducts'));
+        $config = Config::first();
+        return view('frontend.orders.index', compact('orders','cartProducts','config'));
     }
 
     public function showorder($id)
@@ -31,7 +33,8 @@ class UserController extends Controller
         ->select('o.id','o.prod_id as ProdID','o.qty','o.price','p.name as Product','p.slug as ProdSlug','p.small_description','p.description','p.original_price','p.selling_price','p.image','p.tax','p.status','p.trending','o.discount','p.cate_id','cat.name as Category','cat.slug as CatSlug')
         ->orderBy('p.name','asc')
         ->get();
-        return view('frontend.orders.show', compact('orders','orderItems'));
+        $config = Config::first();
+        return view('frontend.orders.show', compact('orders','orderItems','config'));
     }
 
     public function indexuser()
