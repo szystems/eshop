@@ -153,6 +153,26 @@
                                         <td>Subtotal:</td>
                                         <td>{{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</td>
                                     </tr><!-- End .summary-subtotal -->
+                                    @if ($config->tax_status == 1)
+                                            @php
+
+                                                $tax = $config->tax;
+                                                $tax = $tax/100;
+                                                $tax_total = $tax * $total;
+                                                $total = $total + $tax_total;
+
+                                            @endphp
+                                            <tr>
+                                                <td>Tax:</td>
+                                                <td>{{ $config->currency_simbol }}{{ number_format($tax_total, 2, '.', ',') }}</td>
+                                            </tr>
+                                            <input type="hidden" name="tax" value="{{ $tax_total }}" id="tax">
+                                        @else
+                                            @php
+                                                $tax_total =  0;
+                                            @endphp
+                                            <input type="hidden" name="tax" value="{{ $tax_total }}">
+                                        @endif
                                     {{-- <tr class="summary-shipping">
                                         <td>Shipping:</td>
                                         <td>&nbsp;</td>

@@ -170,11 +170,23 @@
                                     @endforeach
                                 </tbody>
                                 <tfoot>
+                                    @if ($order->total_tax != 0)
+                                        <tr>
+                                            @php
+                                                $tax_total = $order->total_tax;
+                                                $total = $total + $tax_total;
+                                            @endphp
+                                            <td></td>
+                                            <td></td>
+                                            <td class="align-middle text-center"></td>
+                                            <td class="align-middle text-center"><h8> Tax: <strong>{{ $config->currency_simbol }}{{ number_format($tax_total,2, '.', ',') }}</strong></h8></td>
+                                        </tr>
+                                    @endif
                                     <tr>
                                         <td></td>
                                         <td></td>
                                         <td class="align-middle text-center"></td>
-                                        <td class="align-middle text-center">Total: <strong>{{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</strong></td>
+                                        <td class="align-middle text-center"><h4>Total: <strong>{{ $config->currency_simbol }}{{ number_format($total,2, '.', ',') }}</strong></h4></td>
                                     </tr>
                                 </tfoot>
                             </table>

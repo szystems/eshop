@@ -55,14 +55,16 @@ class CheckoutController extends Controller
         $cartProducts_total = Cart::where('user_id', Auth::id())->get();
         foreach ($cartProducts_total as $cp) {
             if ($cp->products->discount == "1") {
-                $price = $cp->products->selling_price;
+                $price = $cp->products->selling_price * $cp->prod_qty;
             }else {
-                $price = $cp->products->original_price;
+                $price = $cp->products->original_price * $cp->prod_qty;
             }
             $total += $price;
         }
 
-        $order->total_price = $total;
+        $total_tax = $request->input('tax');
+        $order->total_tax = $request->input('tax');
+        $order->total_price = $total + $total_tax;
         $order->save();
 
 
@@ -132,6 +134,8 @@ class CheckoutController extends Controller
         $country = $request->input('country');
         $zipcode = $request->input('zipcode');
         $note = $request->input('note');
+        $total_tax = $request->input('tax');
+        $total_price = $total_price + $request->input('tax');
 
         return response()->json([
             'firstname' => $firstname,
@@ -145,6 +149,7 @@ class CheckoutController extends Controller
             'country' => $country,
             'zipcode' => $zipcode,
             'note' => $note,
+            'total_tax' => $total_tax,
             'total_price' => $total_price,
         ]);
 

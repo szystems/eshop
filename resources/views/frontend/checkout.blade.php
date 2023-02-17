@@ -250,15 +250,36 @@
                                             </tr>
                                             @php
                                                 $total += $price * $item->prod_qty;
+                                                $tax_total = 0;
                                             @endphp
                                         @endforeach
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
                                             <td>{{ $config->currency_simbol }}{{ number_format($total, 2, '.', ',') }}</td>
                                         </tr><!-- End .summary-subtotal -->
+                                        @if ($config->tax_status == 1)
+                                            @php
+
+                                                $tax = $config->tax;
+                                                $tax = $tax/100;
+                                                $tax_total = $tax * $total;
+                                                $total = $total + $tax_total;
+
+                                            @endphp
+                                            <tr>
+                                                <td>Tax:</td>
+                                                <td>{{ $config->currency_simbol }}{{ number_format($tax_total, 2, '.', ',') }}</td>
+                                            </tr>
+                                            <input type="hidden" name="tax" value="{{ $tax_total }}" id="tax">
+                                        @else
+                                            @php
+                                                $tax_total =  0;
+                                            @endphp
+                                            <input type="hidden" name="tax" value="{{ $tax_total }}">
+                                        @endif
                                         <tr>
                                             <td>Shipping:</td>
-                                            <td>Free shipping</td>
+                                            <td>{{ $config->shipping_description }}</td>
                                         </tr>
                                         <tr class="summary-total">
                                             <td>Total:</td>
@@ -268,6 +289,7 @@
                                 </table><!-- End .table table-summary -->
 
                                 <div class="accordion-summary" id="accordion-payment">
+                                    @if ($config->paypal == 1)
                                     <div class="card">
                                         <div class="card-header" id="heading-4">
                                             <h2 class="card-title">
@@ -286,6 +308,8 @@
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
+                                    @endif
+                                    @if ($config->dbt == 1)
                                     <div class="card">
                                         <div class="card-header" id="heading-1">
                                             <h2 class="card-title">
@@ -305,12 +329,13 @@
                                                     class="btn btn-outline-primary-2 btn-order btn-block btnCreatOrder">
                                                     <span class="btn-text">Place Order</span>
                                                     <span class="btn-hover-text">Proceed to Checkout</span>
-                                                    <input type="hidden" name="payment_mode" value="COD or DBT">
+                                                    <input type="hidden" name="payment_mode" value="POD or DBT">
                                                 </button>
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
-
+                                    @endif
+                                    @if ($config->dbt == 1)
                                     <div class="card">
                                         <div class="card-header" id="heading-3">
                                             <h2 class="card-title">
@@ -332,6 +357,7 @@
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
+                                    @endif
 
 
 
@@ -360,7 +386,7 @@
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card --> --}}
 
-                                    <div class="card">
+                                    {{-- <div class="card">
                                         <div class="card-header" id="heading-6">
                                             <h2 class="card-title">
                                                 <a class="collapsed" role="button" data-toggle="collapse"
@@ -370,16 +396,16 @@
                                                         alt="payments cards">
                                                 </a>
                                             </h2>
-                                        </div><!-- End .card-header -->
+                                        </div>
                                         <div id="collapse-6" class="collapse" aria-labelledby="heading-6"
                                             data-parent="#accordion-payment">
                                             <div class="card-body"> Donec nec justo eget felis facilisis fermentum.Lorem
                                                 ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
                                                 volutpat mattis eros. Lorem ipsum dolor sit ame.
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .collapse -->
-                                    </div><!-- End .card -->
-                                </div><!-- End .accordion -->
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                </div>
 
                                 {{-- <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
                                     <span class="btn-text">Place Order</span>
@@ -532,6 +558,7 @@
                     var country = $('#country').val();
                     var zipcode = $('#zipcode').val();
                     var note = $('#note').val();
+                    var tax = $('#tax').val();
 
                     $.ajax({
                         method: "POST",
@@ -549,6 +576,7 @@
                             'zipcode' :zipcode,
                             'note' :note,
                             'payment_mode' :"Paid by PayPal",
+                            'tax' : tax,
                             'payment_id' : transaction.id,
                         },
                         success: function (response) {

@@ -59,7 +59,7 @@
                             <div class="col-md-3 mb-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" name="dbt" {{ $config->dbt == 1 ? 'checked':'' }}>
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">DBT Status</label>
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">POD/DBT Status</label>
                                 </div>
                                 <h6><font color="orange">Deactivate/Activate payment per Direct Bank Transfer</font></h6>
                             </div>

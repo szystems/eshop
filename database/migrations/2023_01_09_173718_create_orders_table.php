@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('state');
             $table->string('country');
             $table->string('zipcode');
+            $table->string('total_tax');
             $table->string('total_price');
             $table->string('payment_mode');
             $table->string('payment_id')->nullable();

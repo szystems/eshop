@@ -23,6 +23,7 @@ class Order extends Model
         'state',
         'country',
         'zipcode',
+        'total_tax',
         'total_price',
         'payment_mode',
         'payment_id',

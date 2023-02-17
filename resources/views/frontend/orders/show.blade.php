@@ -192,6 +192,18 @@
                                         </tbody>
 
                                         <tfoot>
+                                            @if ($orders->total_tax != 0)
+                                                <tr>
+                                                    @php
+                                                        $tax_total = $orders->total_tax;
+                                                        $total = $total + $tax_total;
+                                                    @endphp
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td align="center"><h8>Tax: </h8></td>
+                                                    <td align="right"><h8><font color="cc9c94"> {{ $config->currency_simbol }}{{ number_format($tax_total,2, '.', ',') }}</font></h8></td>
+                                                </tr>
+                                            @endif
                                             <tr>
                                                 <td></td>
                                                 <td></td>
