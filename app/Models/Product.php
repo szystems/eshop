@@ -21,10 +21,7 @@ class Product extends Model
         'tax',
         'status',
         'trending',
-        'discount',
-        'meta_title',
-        'meta_keywords',
-        'meta_description'
+        'discount'
     ];
 
     public function category()

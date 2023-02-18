@@ -26,16 +26,12 @@ class ProductFormRequest extends FormRequest
         return [
             'cate_id'=>'required',
             'name'=>'required|max:191',
-            'slug'=>'required|max:191',
             'small_description'=>'required',
             'description'=>'required',
             'original_price'=>'required|max:191',
             'selling_price'=>'required|max:191',
             'qty'=>'required',
-            'image'=>'mimes:jpg,jpeg,bmp,png|max:10000',
-            'meta_title'=>'required',
-            'meta_keywords'=>'required',
-            'meta_description'=>'required'
+            'image'=>'mimes:jpg,jpeg,bmp,png|max:10000'
         ];
     }
 }

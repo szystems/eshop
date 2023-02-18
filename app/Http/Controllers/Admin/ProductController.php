@@ -51,9 +51,22 @@ class ProductController extends Controller
             $product->image = $filename;
         }
 
+        $name_product = $request->input('name');
+        $palabras = explode(' ', trim($name_product));
+        $num_palabras = str_word_count($name_product);
+        $slug = $palabras[0];
+        for ($i = 1; $i <= $num_palabras-1; $i++) {
+            $slug = $slug."-".ucwords($palabras[$i]);
+            error_log("slug: ".$slug);
+        }
+        if(Product::where('slug',$slug)->exists())
+        {
+            $slug = $slug.$product->id;
+        }
+
         $product->cate_id = $request->input('cate_id');
         $product->name = $request->input('name');
-        $product->slug = $request->input('slug');
+        $product->slug = $slug;
         $product->small_description = $request->input('small_description');
         $product->description = $request->input('description');
         $product->original_price = $request->input('original_price');
@@ -63,9 +76,6 @@ class ProductController extends Controller
         $product->status = $request->input('status') == TRUE ? '1':'0';
         $product->trending = $request->input('trending') == TRUE ? '1':'0';
         $product->discount = $request->input('discount') == TRUE ? '1':'0';
-        $product->meta_title = $request->input('meta_title');
-        $product->meta_keywords = $request->input('meta_keywords');
-        $product->meta_description = $request->input('meta_description');
         $product->save();
 
         $config = Config::first();
@@ -99,9 +109,23 @@ class ProductController extends Controller
             $file->move('assets/uploads/product',$filename);
             $product->image = $filename;
         }
+
+        $name_product = $request->input('name');
+        $palabras = explode(' ', trim($name_product));
+        $num_palabras = str_word_count($name_product);
+        $slug = $palabras[0];
+        for ($i = 1; $i <= $num_palabras-1; $i++) {
+            $slug = $slug."-".ucwords($palabras[$i]);
+            error_log("slug: ".$slug);
+        }
+        if(Product::where('slug',$slug)->exists())
+        {
+            $slug = $slug.$product->id;
+        }
+
         $product->cate_id = $request->input('cate_id');
         $product->name = $request->input('name');
-        $product->slug = $request->input('slug');
+        $product->slug = $slug;
         $product->small_description = $request->input('small_description');
         $product->description = $request->input('description');
         $product->original_price = $request->input('original_price');
@@ -111,9 +135,6 @@ class ProductController extends Controller
         $product->status = $request->input('status') == TRUE ? '1':'0';
         $product->trending = $request->input('trending') == TRUE ? '1':'0';
         $product->discount = $request->input('discount') == TRUE ? '1':'0';
-        $product->meta_title = $request->input('meta_title');
-        $product->meta_keywords = $request->input('meta_keywords');
-        $product->meta_description = $request->input('meta_description');
         $product->update();
 
         return redirect('/products')->with('status',"Product Updated Successfully");
