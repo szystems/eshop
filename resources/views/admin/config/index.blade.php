@@ -52,16 +52,15 @@
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" name="paypal" {{ $config->paypal == 1 ? 'checked':'' }}>
                                     <label class="form-check-label" for="flexSwitchCheckDefault">PayPal Status</label>
-                                    <h6><font color="orange">Deactivate/Activate PayPal payment.</font></h6>
                                 </div>
-
+                                <label><font color="orange">Enable PayPal payment.</font></label>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" name="dbt" {{ $config->dbt == 1 ? 'checked':'' }}>
                                     <label class="form-check-label" for="flexSwitchCheckDefault">POD/DBT Status</label>
                                 </div>
-                                <h6><font color="orange">Deactivate/Activate payment per Direct Bank Transfer</font></h6>
+                                <label><font color="orange">Enable Payment per Direct Bank Transfer</font></label>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="">
@@ -75,7 +74,7 @@
                                     <span class="input-group-text" id="basic-addon1">%</span>
                                     <input type="number" name="tax" class="form-control" placeholder="Example:12%" aria-describedby="basic-addon1" value="{{ $config->tax }}" required>
                                 </div>
-                                <h6><font color="orange">Deactivate/Activate tax and percentage</font></h6>
+                                <label><font color="orange">Enable tax and percentage in order</font></label>
                                 @if ($errors->has('tax'))
                                     <span class="help-block opacity-7">
                                             <strong>

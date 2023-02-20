@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $products=DB::table('products as p')
             ->join('categories as c','p.cate_id','=','c.id')
-            ->select('p.id','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
+            ->select('p.id','p.code','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
             ->orderBy('p.name','asc')
             ->paginate(20);
         $config = Config::first();
@@ -65,6 +65,7 @@ class ProductController extends Controller
         }
 
         $product->cate_id = $request->input('cate_id');
+        $product->code = $request->input('code');
         $product->name = $request->input('name');
         $product->slug = $slug;
         $product->small_description = $request->input('small_description');
@@ -124,6 +125,7 @@ class ProductController extends Controller
         }
 
         $product->cate_id = $request->input('cate_id');
+        $product->code = $request->input('code');
         $product->name = $request->input('name');
         $product->slug = $slug;
         $product->small_description = $request->input('small_description');
@@ -160,7 +162,7 @@ class ProductController extends Controller
     {
         $products=DB::table('products as p')
         ->join('categories as c','p.cate_id','=','c.id')
-        ->select('p.id','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
+        ->select('p.id','p.code','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
         ->orderBy('p.name','asc')
         ->get();
 

@@ -48,6 +48,17 @@
                                 @endif
                             </div>
                             <div class="col-md-4 mb-3">
+                                <label for="">Code</label>
+                                <input type="text" class="form-control border px-2 " name="code" value="{{ old('code') }}" >
+                                @if ($errors->has('code'))
+                                    <span class="help-block opacity-7">
+                                            <strong>
+                                                <font color="red">{{ $errors->first('code') }}</font>
+                                            </strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label for="">Name</label>
                                 <input type="text" class="form-control border px-2 " name="name" value="{{ old('name') }}" >
                                 @if ($errors->has('name'))
@@ -125,18 +136,21 @@
                                     <input class="form-check-input" type="checkbox" name="status" >
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Status</label>
                                 </div>
+                                <label><font color="orange">Enable in store</font></label>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" name="trending" >
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Trending</label>
                                 </div>
+                                <label><font color="orange">Enable to trending</font></label>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" name="discount" >
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Discount</label>
                                 </div>
+                                <label><font color="orange">Enable discount</font></label>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="">Imagen</label>

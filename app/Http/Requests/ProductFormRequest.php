@@ -25,6 +25,7 @@ class ProductFormRequest extends FormRequest
     {
         return [
             'cate_id'=>'required',
+            'code'=>'max:191',
             'name'=>'required|max:191',
             'small_description'=>'required',
             'description'=>'required',

@@ -26,15 +26,19 @@
                         @include('admin.product.deletemodal')
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-3 mb-3">
+                            <label for=""><strong>Category</strong></label>
+                            <p>{{ $product->category->name }}</p>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for=""><strong>Code</strong></label>
+                            <p>{{ $product->code }}</p>
+                        </div>
+                        <div class="col-md-3 mb-3">
                             <label for=""><strong>Name</strong></label>
                             <p>{{ $product->name }}</p>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for=""><strong>product</strong></label>
-                            <p>{{ $product->category->name }}</p>
-                        </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label for=""><strong>Slug</strong></label>
                             <p>{{ $product->slug }}</p>
                         </div>
@@ -46,42 +50,45 @@
                             <label for=""><strong>Description</strong></label>
                             <textarea rows="3" class="form-control border px-2" readonly>{{ $product->description }}</textarea>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for=""><strong>Price</strong></label>
                             <p>{{ $config->currency_simbol }}{{ number_format($product->original_price,2, '.', ',') }}</p>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for=""><strong>Discount Price</strong></label>
                             <p>{{ $config->currency_simbol }}{{ number_format($product->selling_price,2, '.', ',') }}</p>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for=""><strong>Quantity</strong></label>
                             <p>{{ $product->qty }}</p>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        {{-- <div class="col-md-6 mb-3">
                             <label for=""><strong>Tax</strong></label>
                             <p>{{ $product->tax }}</p>
-                        </div>
-                        <div class="col-md-6 mb-3">
+                        </div> --}}
+                        <div class="col-md-4 mb-3">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" name="status"
                                     {{ $product->status == 1 ? 'checked' : '' }} disabled>
                                 <label class="form-check-label" for="flexSwitchCheckDefault"><strong>Status</strong></label>
                             </div>
+                            <label><font color="orange">Enable in store</font></label>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" name="popular"
                                     {{ $product->trending == 1 ? 'checked' : '' }} disabled>
                                 <label class="form-check-label" for="flexSwitchCheckDefault"><strong>Trending</strong></label>
                             </div>
+                            <label><font color="orange">Enable to trending</font></label>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" name="discount"
                                     {{ $product->discount == 1 ? 'checked' : '' }} disabled>
                                 <label class="form-check-label" for="flexSwitchCheckDefault"><strong>Discount</strong></label>
                             </div>
+                            <label><font color="orange">Enable discount</font></label>
                         </div>
                         @if ($product->image)
                             <div class="col-md-12 mb-3">
