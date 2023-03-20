@@ -8,13 +8,29 @@ use App\Models\User;
 use App\Http\Requests\UserFormRequest;
 use App\Http\Requests\UserCreateFormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Config;
+use PDF;
+use DB;
 
 class DashboardController extends Controller
 {
-    public function users()
+    public function users(Request $request)
     {
-        $users = User::all()->where('status', 1);
-        return view('admin.user.index', compact('users'));
+        if ($request)
+        {
+            $queryUser=$request->input('fuser');
+            $users=DB::table('users')
+            ->where('status','=',1)
+            ->where('name','LIKE','%'.$queryUser.'%')
+            ->orWhere('phone','LIKE','%'.$queryUser.'%')
+            ->where('name','LIKE','%'.$queryUser.'%')
+            ->orWhere('email','LIKE','%'.$queryUser.'%')
+            ->where('status','=',1)
+            ->orderBy('name','asc')
+            ->paginate(25);
+            $filterUsers = User::all();
+            return view('admin.user.index', compact('users','queryUser','filterUsers'));
+        }
     }
 
     public function showuser($id)
@@ -112,5 +128,48 @@ class DashboardController extends Controller
         $user->email = $user->email.'-Deleted';
         $user->update();
         return redirect('users')->with('status',"User Deleted Successfully");
+    }
+
+    public function pdf(Request $request)
+    {
+        if ($request)
+        {
+            $user = User::find($request->input('ruser'));
+
+            $verpdf = "Browser";
+            $nompdf = date('m/d/Y g:ia');
+            $path = public_path('assets/uploads/');
+
+            $config = Config::first();
+
+            $currency = $config->currency_simbol;
+
+            if ($config->logo == null)
+            {
+                $logo = null;
+                $imagen = null;
+            }
+            else
+            {
+                    $logo = $config->logo;
+                    $imagen = public_path('assets/uploads/logos/'.$logo);
+            }
+
+
+            $config = Config::first();
+
+            if ( $verpdf == "Download" )
+            {
+                $pdf = PDF::loadView('admin.user.pdf',['user'=>$user,'path'=>$path,'config'=>$config,'imagen'=>$imagen,'currency'=>$currency]);
+
+                return $pdf->download ('User: '.$user->name.$nompdf.'.pdf');
+            }
+            if ( $verpdf == "Browser" )
+            {
+                $pdf = PDF::loadView('admin.user.pdf',['user'=>$user,'path'=>$path,'config'=>$config,'imagen'=>$imagen,'currency'=>$currency]);
+
+                return $pdf->stream ('User: '.$user->name.$nompdf.'.pdf');
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@
                             </a>
 
                         </div>
+                        @include('admin.category.search')
                         <div class="row">
                             <div class="table-responsive">
                                 <table class="table table-sm align-categorys-center mb-0 table-striped table-bordered">
@@ -44,7 +45,7 @@
                                             <td class="align-middle text-center text-sm">{{ $category->description }}</td>
                                             <td class="align-middle text-center text-sm">
                                                 @if ($category->image)
-                                                    <img class="border-radius-md w-10" src="{{ asset('assets/uploads/category/'.$category->image) }}" alt="{{ $category->nombre }} image">
+                                                    <img class="border-radius-md w-10" src="{{ asset('assets/uploads/category/'.$category->image) }}" alt="{{ $category->name }} image">
                                                 @endif
                                             </td>
                                             <td class="align-middle text-center text-sm">

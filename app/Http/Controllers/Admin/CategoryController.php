@@ -8,13 +8,23 @@ use App\Http\Requests\CategoriaFormRequest;
 use Illuminate\Support\Facades\File;
 
 use Illuminate\Http\Request;
+use DB;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
-        return \view('admin.category.index', compact('categories'));
+        if($request)
+        {
+            $queryCategory=$request->input('fcategory');
+            $categories=DB::table('categories')
+            ->where('name','LIKE','%'.$queryCategory.'%')
+            ->orderBy('name','asc')
+            ->paginate(25);
+            $filterCategories = Category::all();
+            return view('admin.category.index', compact('categories','queryCategory','filterCategories'));
+        }
+
     }
 
     public function show($id)

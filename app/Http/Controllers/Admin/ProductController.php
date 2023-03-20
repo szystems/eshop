@@ -9,20 +9,41 @@ use App\Models\Config;
 use App\Models\Category;
 use App\Http\Requests\ProductFormRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use DB;
 use PDF;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products=DB::table('products as p')
-            ->join('categories as c','p.cate_id','=','c.id')
-            ->select('p.id','p.code','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
-            ->orderBy('p.name','asc')
-            ->paginate(20);
-        $config = Config::first();
-        return view('admin.product.index', compact('products','config'));
+        if ($request)
+        {
+            $queryProduct=$request->input('fproduct');
+            $queryCategory=$request->input('fcategory');
+            $queryStock=$request->input('fstock');
+            $queryStatus=$request->input('fstatus');
+            $queryTrending=$request->input('ftrending');
+            $queryDiscount=$request->input('fdiscount');
+            if ($queryStock == null) {
+                $queryStock = ">=";
+            }
+            $products=DB::table('products as p')
+                ->join('categories as c','p.cate_id','=','c.id')
+                ->select('p.id','p.code','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount','p.trending')
+                ->where('c.name','LIKE','%'.$queryCategory.'%')
+                ->where('p.name','LIKE','%'.$queryProduct.'%')
+                ->where('p.qty',$queryStock,0)
+                ->where('p.status','LIKE',$queryStatus)
+                ->where('p.trending','LIKE',$queryTrending)
+                ->where('p.discount','LIKE',$queryDiscount)
+                ->orderBy('p.name','asc')
+                ->paginate(25);
+            $config = Config::first();
+            $filterCategories = Category::all();
+            $filterProducts = Product::all();
+            return view('admin.product.index', compact('products','config','queryProduct','queryCategory','queryStock','queryStatus','queryTrending','queryDiscount','filterCategories','filterProducts'));
+        }
     }
 
     public function show($id)
@@ -158,31 +179,109 @@ class ProductController extends Controller
         return redirect('products')->with('status',"Product Deleted Successfully");
     }
 
-    public function pdf()
+    public function pdf(Request $request)
     {
-        $products=DB::table('products as p')
-        ->join('categories as c','p.cate_id','=','c.id')
-        ->select('p.id','p.code','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount')
-        ->orderBy('p.name','asc')
-        ->get();
-
-        $verpdf = "Browser";
-        $nompdf = date('m/d/Y g:ia');
-        $path = public_path('assets/uploads/product/');
-
-        $config = Config::first();
-
-        if ( $verpdf == "Download" )
+        if ($request)
         {
-            $pdf = PDF::loadView('admin.product.pdf',['products'=>$products,'path'=>$path,'config'=>$config]);
+            $queryProduct=$request->input('rproduct');
+            $queryCategory=$request->input('rcategory');
+            $queryStock=$request->input('rstock');
+            $queryStatus=$request->input('rstatus');
+            $queryTrending=$request->input('rtrending');
+            $queryDiscount=$request->input('rdiscount');
+            if ($queryStock == null) {
+                $queryStock = ">=";
+            }
+            $products=DB::table('products as p')
+            ->join('categories as c','p.cate_id','=','c.id')
+            ->select('p.id','p.code','c.id as Idcategory','c.name as Category','p.name','p.description','p.original_price','p.selling_price','p.image','p.qty','p.status','p.discount','p.trending')
+            ->where('c.name','LIKE','%'.$queryCategory.'%')
+            ->where('p.name','LIKE','%'.$queryProduct.'%')
+            ->where('p.qty',$queryStock,0)
+            ->where('p.status','LIKE',$queryStatus)
+            ->where('p.trending','LIKE',$queryTrending)
+            ->where('p.discount','LIKE',$queryDiscount)
+            ->orderBy('c.name','asc')
+            ->orderBy('p.name','asc')
+            ->get();
 
-            return $pdf->download ('Product_list'.$nompdf.'.pdf');
+            $verpdf = "Browser";
+            $nompdf = date('m/d/Y g:ia');
+            $path = public_path('assets/uploads/');
+
+            $config = Config::first();
+
+            $currency = $config->currency_simbol;
+
+            if ($config->logo == null)
+            {
+                $logo = null;
+                $imagen = null;
+            }
+            else
+            {
+                    $logo = $config->logo;
+                    $imagen = public_path('assets/uploads/logos/'.$logo);
+            }
+
+
+            $config = Config::first();
+
+            if ( $verpdf == "Download" )
+            {
+                $pdf = PDF::loadView('admin.product.pdf',['products'=>$products,'path'=>$path,'config'=>$config,'imagen'=>$imagen,'currency'=>$currency,'queryProduct'=>$queryProduct,'queryCategory'=>$queryCategory,'queryStock'=>$queryStock,'queryStatus'=>$queryStatus,'queryTrending'=>$queryTrending,'queryDiscount'=>$queryDiscount]);
+
+                return $pdf->download ('Product_list'.$nompdf.'.pdf');
+            }
+            if ( $verpdf == "Browser" )
+            {
+                $pdf = PDF::loadView('admin.product.pdf',['products'=>$products,'path'=>$path,'config'=>$config,'imagen'=>$imagen,'currency'=>$currency,'queryProduct'=>$queryProduct,'queryCategory'=>$queryCategory,'queryStock'=>$queryStock,'queryStatus'=>$queryStatus,'queryTrending'=>$queryTrending,'queryDiscount'=>$queryDiscount]);
+
+                return $pdf->stream ('Product_list'.$nompdf.'.pdf');
+            }
         }
-        if ( $verpdf == "Browser" )
-        {
-            $pdf = PDF::loadView('admin.product.pdf',['products'=>$products,'path'=>$path,'config'=>$config]);
+    }
 
-            return $pdf->stream ('Product_list'.$nompdf.'.pdf');
+    public function pdfshow(Request $request)
+    {
+        if ($request)
+        {
+            $product = Product::find($request->input('rproduct'));
+
+            $verpdf = "Browser";
+            $nompdf = date('m/d/Y g:ia');
+            $path = public_path('assets/uploads/');
+
+            $config = Config::first();
+
+            $currency = $config->currency_simbol;
+
+            if ($config->logo == null)
+            {
+                $logo = null;
+                $imagen = null;
+            }
+            else
+            {
+                    $logo = $config->logo;
+                    $imagen = public_path('assets/uploads/logos/'.$logo);
+            }
+
+
+            $config = Config::first();
+
+            if ( $verpdf == "Download" )
+            {
+                $pdf = PDF::loadView('admin.product.pdfshow',['product'=>$product,'path'=>$path,'config'=>$config,'imagen'=>$imagen,'currency'=>$currency]);
+
+                return $pdf->download ($product->name.$nompdf.'.pdf');
+            }
+            if ( $verpdf == "Browser" )
+            {
+                $pdf = PDF::loadView('admin.product.pdfshow',['product'=>$product,'path'=>$path,'config'=>$config,'imagen'=>$imagen,'currency'=>$currency]);
+
+                return $pdf->stream ($product->name.$nompdf.'.pdf');
+            }
         }
     }
 }

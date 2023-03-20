@@ -31,6 +31,8 @@ class Order extends Model
         'total_price',
         'status',
         'tracking_no',
+        'created_at',
+        'updated_at'
     ];
 
     public function orderitems()

@@ -19,6 +19,12 @@
                 <div class="card-body p-3 pt-2">
                     <h4><u>Show Product</u></h4>
                     <div>
+                        <form action="{{ url('pdf-showproduct') }}" method="GET" target="_blank">
+                            <input type="hidden" name="rproduct" value="{{ $product->id }}">
+                            <button type="submit" class="btn btn-danger float-end">
+                                <i class="material-icons opacity-10">picture_as_pdf</i> PDF
+                            </button>
+                        </form>
                         <a href="{{ url('edit-product/'.$product->id) }}" type="button" class="btn btn-warning"><i class="material-icons">edit</i></a>
                         <button type="button" class="btn bg-gradient-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $product->id }}">
                             <i class="material-icons">delete</i>
@@ -59,7 +65,7 @@
                             <p>{{ $config->currency_simbol }}{{ number_format($product->selling_price,2, '.', ',') }}</p>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for=""><strong>Quantity</strong></label>
+                            <label for=""><strong>Stock</strong></label>
                             <p>{{ $product->qty }}</p>
                         </div>
                         {{-- <div class="col-md-6 mb-3">

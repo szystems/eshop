@@ -122,7 +122,7 @@
                                 @endif
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="">Quantity</label>
+                                <label for="">Stock</label>
                                 <input type="number" class="form-control border px-2 " name="qty" value="{{ $product->qty }}" >
                                 @if ($errors->has('qty'))
                                     <span class="help-block opacity-7">

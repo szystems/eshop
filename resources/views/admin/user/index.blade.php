@@ -24,6 +24,7 @@
                             </a>
 
                         </div>
+                        @include('admin.user.search')
                         <div class="row">
                             <div class="table-responsive">
                                 <table class="table table-sm align-products-center mb-0 table-striped table-bordered">

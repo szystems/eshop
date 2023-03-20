@@ -18,7 +18,7 @@
         <hr class="horizontal dark my-1">
         <div class="card-body pt-sm-3 pt-0">
             <!-- Sidebar Backgrounds -->
-            <div>
+            {{-- <div>
                 <h6 class="mb-0">Sidebar Colors</h6>
             </div>
             <a href="javascript:void(0)" class="switch-trigger background-color">
@@ -64,15 +64,15 @@
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version"
                         onclick="darkMode(this)">
                 </div>
-            </div>
+            </div> --}}
             <hr class="horizontal dark my-sm-4">
             <a class="btn btn-outline-dark w-100"
                 href="{{ url('config') }}"><i class="material-icons py-2">settings</i> Settings</a>
-            <a class="btn bg-gradient-info w-100"
+            {{-- <a class="btn bg-gradient-info w-100"
                 href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
             <a class="btn btn-outline-dark w-100"
                 href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View
-                documentation</a>
+                documentation</a> --}}
             <div class="w-100 text-center">
                 {{-- <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard"
                     data-icon="octicon-star" data-size="large" data-show-count="true"

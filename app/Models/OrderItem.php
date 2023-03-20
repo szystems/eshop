@@ -18,4 +18,9 @@ class OrderItem extends Model
         'discount',
 
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(product::class, 'prod_id', 'id');
+    }
 }

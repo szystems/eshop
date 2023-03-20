@@ -102,6 +102,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('update-product/{id}', [ProductController::class, 'update']);
     Route::get('delete-product/{id}', [ProductController::class, 'destroy']);
     Route::get('pdf-product', 'Admin\ProductController@pdf');
+    Route::get('pdf-showproduct', 'Admin\ProductController@pdfshow');
 
 
     //Admin Users
@@ -112,12 +113,16 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('edit-user/{id}',[DashboardController::class,'edituser']);
     Route::put('update-user/{id}', [DashboardController::class, 'updateuser']);
     Route::get('delete-user/{id}', [DashboardController::class, 'destroyuser']);
+    Route::get('pdf-user', 'Admin\DashboardController@pdf');
+
 
     //Admin Orders
     Route::get('orders', [OrderController::class, 'index']);
     Route::get('admin/show-order/{id}', [OrderController::class, 'show']);
     Route::put('update-order/{id}', [OrderController::class, 'updateorder']);
     Route::get('order-history', [OrderController::class, 'orderhistory']);
+    Route::get('pdf-order', 'Admin\OrderController@pdf');
+    Route::get('pdf-showorder', 'Admin\OrderController@pdfshow');
 
     //config
     Route::get('config', [ConfigController::class, 'index']);

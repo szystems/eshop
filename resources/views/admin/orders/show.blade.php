@@ -19,6 +19,12 @@
                 <div class="card-body p-3 pt-2">
                     <h4><u>Order Details</u></h4>
                     <div>
+                        <form action="{{ url('pdf-showorder') }}" method="GET" target="_blank">
+                            <input type="hidden" name="rorderid" value="{{ $order->id }}">
+                            <button type="submit" class="btn btn-danger float-end">
+                                <i class="material-icons opacity-10">picture_as_pdf</i> PDF
+                            </button>
+                        </form>
                         {{-- <a href="{{ url('edit-order/'.$order->id) }}" type="button" class="btn btn-warning"><i class="material-icons">edit</i></a> --}}
                         {{-- <button type="button" class="btn bg-gradient-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $order->id }}">
                             <i class="material-icons">delete</i>
