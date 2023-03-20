@@ -18,8 +18,6 @@ class Config extends Model
         'tax',
         'paypal',
         'dbt',
-        'shipping_description',
-        'sidenav_color',
-        'sidenav_type'
+        'shipping_description'
     ];
 }
