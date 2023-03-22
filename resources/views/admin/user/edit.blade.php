@@ -143,6 +143,18 @@
                                 @endif
                             </div>
 
+                            <div class="col-md-3 mb-3">
+                                <label for="">User Timezone</label>
+                                <select class="form-select px-2" aria-label="Default select example" name="timezone" id="timezone">
+                                    <option selected value="{{ $user->timezone }}">{{ $user->timezone }}</option>
+                                    @foreach(Helpers::getTimeZoneList() as $timezone => $timezone_gmt_diff)
+                                        <option value="{{ $timezone }}" {{ ( $timezone === old('timezone', $user->timezone)) ? 'selected' : '' }}>
+                                            {{ $timezone_gmt_diff }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="col-md-12 mb-3" >
                                 <button type="submit" class="btn btn-success"><i class="material-icons">save</i> Save</button>
                             </div>

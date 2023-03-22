@@ -126,6 +126,18 @@
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                 </div><!-- End .form-group -->
 
+                                <div class="form-group">
+                                    <label for="register-password-2">{{ __('Password') }} *</label>
+                                    <select class="form-control" name="timezone" id="timezone">
+                                        <option selected value="UTC">UTC (UTC +00:00)</option>
+                                        @foreach(Helpers::getTimeZoneList() as $timezone => $timezone_gmt_diff)
+                                            <option value="{{ $timezone }}" {{ ( $timezone === old('timezone')) ? 'selected' : '' }}>
+                                                {{ $timezone_gmt_diff }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div><!-- End .form-group -->
+
                                 <div class="form-footer">
                                     <button type="submit" class="btn btn-outline-primary-2">
                                         <span>{{ __('Register') }}</span>

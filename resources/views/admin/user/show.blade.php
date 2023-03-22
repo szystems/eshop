@@ -79,6 +79,10 @@
                             <label for=""><strong>Zipcode</strong></label>
                             <p>{{ $user->zipcode }}</p>
                         </div>
+                        <div class="col-md-3 mb-3">
+                            <label for=""><strong>Timezone</strong></label>
+                            <p>{{ $user->timezone }}</p>
+                        </div>
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">

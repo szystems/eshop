@@ -44,7 +44,7 @@
                                         <tr>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Order Date</th>
+                                                Order Date ({{ Auth::user()->timezone }})</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Tracking Number</th>
@@ -65,8 +65,12 @@
                                     <tbody>
                                         @foreach ($orders as $order)
                                             <tr align="center">
-                                                <td class="align-middle text-center text-sm">
-                                                    {{ date('d-m-Y', strtotime($order->created_at)) }}</td>
+                                                {{-- <td class="align-middle text-center text-sm">{{ date('d-m-Y', strtotime($order->created_at)) }}</td> --}}
+                                                @php
+                                                    $date = new DateTime($order->created_at, new DateTimeZone(date_default_timezone_get()));
+                                                    $date->setTimezone(new DateTimeZone(Auth::user()->timezone));
+                                                @endphp
+                                                <td class="align-middle text-center text-sm">{{ $date->format('d-m-Y') }}</td>
                                                 <td class="align-middle text-center text-sm"><strong><a
                                                             href="{{ url('show-order/' . $order->id) }}">{{ $order->tracking_no }}</a></strong>
                                                 </td>

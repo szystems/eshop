@@ -32,6 +32,7 @@ class UserFormRequest extends FormRequest
             'state'=>'max:191',
             'country'=>'max:191',
             'zipcode'=>'max:191',
+            'timezone'=>'required', 'timezone',
         ];
     }
 }

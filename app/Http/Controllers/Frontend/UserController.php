@@ -78,6 +78,7 @@ class UserController extends Controller
         $user->state = $request->input('state');
         $user->country = $request->input('country');
         $user->zipcode = $request->input('zipcode');
+        $user->timezone = $request->input('timezone');
         $user->update();
 
         return redirect('my-account')->with('status',"User Updated Successfully");

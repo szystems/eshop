@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\Config;
 use DB;
 use PDF;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -28,9 +33,6 @@ class OrderController extends Controller
                 $queryDesde = date("Y-m-d 00:00:00", strtotime($queryDesde));
                 $queryHasta = date("Y-m-d 23:59:59", strtotime($queryHasta));
 
-                $desde = date("d-m-Y 00:00:00", strtotime($queryDesde));
-                $hasta = date("d-m-Y 23:59:59", strtotime($queryHasta));
-
             }else
             {
 
@@ -39,11 +41,21 @@ class OrderController extends Controller
 
                 $queryDesde = date("Y-m-d 00:00:00", strtotime($queryDesde));
                 $queryHasta = date("Y-m-d 23:59:59", strtotime($queryHasta));
-
-                $desde = date("d-m-Y 00:00:00", strtotime($queryDesde));
-                $hasta = date("d-m-Y 23:59:59", strtotime($queryHasta));
-
             }
+
+            //convertir fechas de query a timezone por defecto
+
+            $queryDesde = new DateTime($queryDesde, new DateTimeZone(Auth::user()->timezone));
+            $queryDesde->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+            $queryHasta = new DateTime($queryHasta, new DateTimeZone(Auth::user()->timezone));
+            $queryHasta->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+            $queryDesde = $queryDesde->format("Y-m-d H:i:s");
+            $queryHasta = $queryHasta->format("Y-m-d H:i:s");
+
+            \error_log($queryDesde);
+            \error_log($queryHasta);
 
             $orders=DB::table('orders')
             ->whereBetween('created_at', [$queryDesde, $queryHasta])
@@ -58,6 +70,23 @@ class OrderController extends Controller
             ->where('payment_mode','LIKE','%'.$queryPayment.'%')
             ->orderBy('created_at','desc')
             ->get();
+
+            //convertir fechas de query a timezone de usuario
+
+            $queryDesde = new DateTime($queryDesde, new DateTimeZone(date_default_timezone_get()));
+            $queryDesde->setTimezone(new DateTimeZone(Auth::user()->timezone));
+
+            $queryHasta = new DateTime($queryHasta, new DateTimeZone(date_default_timezone_get()));
+            $queryHasta->setTimezone(new DateTimeZone(Auth::user()->timezone));
+
+            $desde = $queryDesde->format("d-m-Y");
+            $hasta = $queryHasta->format("d-m-Y");
+
+            $queryDesde = $queryDesde->format("Y-m-d H:i:s");
+            $queryHasta = $queryHasta->format("Y-m-d H:i:s");
+
+
+
 
             $config = Config::first();
             return view('admin.orders.index', compact('orders','config','queryDesde','queryHasta','queryStatus','queryPayment','desde','hasta','ordersResume'));
@@ -111,9 +140,6 @@ class OrderController extends Controller
                 $queryDesde = date("Y-m-d 00:00:00", strtotime($queryDesde));
                 $queryHasta = date("Y-m-d 23:59:59", strtotime($queryHasta));
 
-                $desde = date("d-m-Y 00:00:00", strtotime($queryDesde));
-                $hasta = date("d-m-Y 23:59:59", strtotime($queryHasta));
-
             }else
             {
 
@@ -123,10 +149,18 @@ class OrderController extends Controller
                 $queryDesde = date("Y-m-d 00:00:00", strtotime($queryDesde));
                 $queryHasta = date("Y-m-d 23:59:59", strtotime($queryHasta));
 
-                $desde = date("d-m-Y 00:00:00", strtotime($queryDesde));
-                $hasta = date("d-m-Y 23:59:59", strtotime($queryHasta));
-
             }
+
+            //convertir fechas de query a timezone por defecto
+
+            $queryDesde = new DateTime($queryDesde, new DateTimeZone(Auth::user()->timezone));
+            $queryDesde->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+            $queryHasta = new DateTime($queryHasta, new DateTimeZone(Auth::user()->timezone));
+            $queryHasta->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+            $queryDesde = $queryDesde->format("Y-m-d H:i:s");
+            $queryHasta = $queryHasta->format("Y-m-d H:i:s");
 
             $orders=DB::table('orders')
             ->whereBetween('created_at', [$queryDesde, $queryHasta])
@@ -141,6 +175,20 @@ class OrderController extends Controller
             ->where('payment_mode','LIKE','%'.$queryPayment.'%')
             ->orderBy('created_at','desc')
             ->get();
+
+            //convertir fechas de query a timezone de usuario
+
+            $queryDesde = new DateTime($queryDesde, new DateTimeZone(date_default_timezone_get()));
+            $queryDesde->setTimezone(new DateTimeZone(Auth::user()->timezone));
+
+            $queryHasta = new DateTime($queryHasta, new DateTimeZone(date_default_timezone_get()));
+            $queryHasta->setTimezone(new DateTimeZone(Auth::user()->timezone));
+
+            $desde = $queryDesde->format("d-m-Y");
+            $hasta = $queryHasta->format("d-m-Y");
+
+            $queryDesde = $queryDesde->format("Y-m-d H:i:s");
+            $queryHasta = $queryHasta->format("Y-m-d H:i:s");
 
             $verpdf = "Browser";
             $nompdf = date('m/d/Y g:ia');

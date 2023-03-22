@@ -66,6 +66,7 @@ class DashboardController extends Controller
         $user->state = $request->input('state');
         $user->country = $request->input('country');
         $user->zipcode = $request->input('zipcode');
+        $user->timezone = $request->input('timezone');
         $user->save();
 
         return redirect('users')->with('status', "User Added Successfully");
@@ -101,6 +102,7 @@ class DashboardController extends Controller
         $user->state = $request->input('state');
         $user->country = $request->input('country');
         $user->zipcode = $request->input('zipcode');
+        $user->timezone = $request->input('timezone');
         $user->update();
 
         if (Auth::id() == $id) {

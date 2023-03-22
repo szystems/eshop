@@ -159,7 +159,7 @@
                                             <tr>
                                                 <th
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Date</th>
+                                                    Date ({{ Auth::user()->timezone }})</th>
                                                 <th
                                                     class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                     Status</th>
@@ -175,7 +175,11 @@
                                                     <td>
                                                         <div class="d-flex px-2 py-1">
                                                             <div class="d-flex flex-column justify-content-center">
-                                                                <h6 class="mb-0 text-sm"><a href="{{ url('admin/show-order/'.$order->id) }}">{{ date('d-m-Y', strtotime($order->created_at)) }}</a></h6>
+                                                                @php
+                                                                    $date = new DateTime($order->created_at, new DateTimeZone(date_default_timezone_get()));
+                                                                    $date->setTimezone(new DateTimeZone(Auth::user()->timezone));
+                                                                @endphp
+                                                                <h6 class="mb-0 text-sm"><a href="{{ url('admin/show-order/'.$order->id) }}">{{ $date->format('d-m-Y') }}</a></h6>
                                                             </div>
                                                         </div>
                                                     </td>

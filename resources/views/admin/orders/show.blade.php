@@ -71,7 +71,11 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for=""><strong>Order Date</strong></label>
-                            <p>{{ date('d-m-Y', strtotime($order->created_at)) }}</p>
+                            @php
+                                $date = new DateTime($order->created_at, new DateTimeZone(date_default_timezone_get()));
+                                $date->setTimezone(new DateTimeZone(Auth::user()->timezone));
+                            @endphp
+                            <p>{{ $date->format('d-m-Y')}}</p>
                         </div>
                         {{-- <div class="col-md-2 mb-3">
                             <label for=""><strong>Status</strong></label>

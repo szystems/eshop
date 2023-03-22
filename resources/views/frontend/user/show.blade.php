@@ -96,6 +96,10 @@
                                         <label>Zipcode</label>
                                         <input readonly name="zipcode" type="text" class="form-control" value="{{ $user->zipcode }}">
                                     </div><!-- End .col-sm-6 -->
+                                    <div class="col-sm-3">
+                                        <label>Timezone</label>
+                                        <input readonly name="zipcode" type="text" class="form-control" value="{{ $user->timezone }}">
+                                    </div><!-- End .col-sm-6 -->
                                 </div>
                             </div><!-- .End .tab-pane -->
 

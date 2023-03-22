@@ -32,8 +32,8 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-3 mb-3">
-                                <label for=""><strong>User Role:</strong></label>
-                                <select class="form-select" name="role_as" aria-label="Floating label select example">
+                                <label for="">User Role</label>
+                                <select class="form-select px-2" aria-label="Default select example" name="role_as" id="role_as">
                                     <option value="0">User</option>
                                     <option value="1">Admin</option>
                                 </select>
@@ -136,6 +136,18 @@
                                             </strong>
                                     </span>
                                 @endif
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="">User Timezone</label>
+                                <select class="form-select px-2" aria-label="Default select example" name="timezone" id="timezone">
+                                    <option value="UTC">UTC (UTC +00:00)</option>
+                                    @foreach(Helpers::getTimeZoneList() as $timezone => $timezone_gmt_diff)
+                                        <option value="{{ $timezone }}" {{ ( $timezone === old('timezone')) ? 'selected' : '' }}>
+                                            {{ $timezone_gmt_diff }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-12 mb-3" >

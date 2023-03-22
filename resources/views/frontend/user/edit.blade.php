@@ -166,6 +166,16 @@
                                                 </span>
                                             @endif
                                         </div><!-- End .col-sm-6 -->
+                                        <div class="col-sm-6">
+                                            <label>Timezone</label>
+                                            <select class="form-control" name="timezone" id="timezone">
+                                                @foreach(Helpers::getTimeZoneList() as $timezone => $timezone_gmt_diff)
+                                                    <option value="{{ $timezone }}" {{ ( $timezone === old('timezone', $user->timezone)) ? 'selected' : '' }}>
+                                                        {{ $timezone_gmt_diff }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div><!-- End .col-sm-6 -->
                                     </div>
 
                                     <button type="submit" class="btn btn-outline-primary-2">

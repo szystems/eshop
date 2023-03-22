@@ -6,10 +6,6 @@
                         <div class="col-md-12 mb-0">
                             <label for=""><strong>Filter by:</strong></label>
                         </div>
-                        @php
-                            $desde = date("d-m-Y", strtotime($desde));
-                            $hasta = date("d-m-Y", strtotime($hasta));
-                        @endphp
 
                         <div class="col-md-2 mb-3">
                             <label for="">From </label>

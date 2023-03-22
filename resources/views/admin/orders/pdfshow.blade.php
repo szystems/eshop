@@ -24,9 +24,10 @@
         <font size="1">Report Date:</font>
         <font color="blue" size="1">
             @php
-                $now = date('d-m-Y');
+                $horafecha = new DateTime("now", new DateTimeZone(Auth::user()->timezone));
+                $horafecha = $horafecha->format('d-m-Y, H:i:s')
             @endphp
-            {{ $now }}
+            {{ $horafecha }} ({{ Auth::user()->timezone }})
         </font>
     </label>
     <br>
@@ -96,7 +97,11 @@
                     <font size="1">Order Date:</font>
                 </th>
                 <td>
-                    <font size="1">{{ date('d-m-Y', strtotime($order->created_at)) }}</font>
+                    @php
+                        $date = new DateTime($order->created_at, new DateTimeZone(date_default_timezone_get()));
+                        $date->setTimezone(new DateTimeZone(Auth::user()->timezone));
+                    @endphp
+                    <font size="1">{{ $date->format('d-m-Y')}}</font>
                 </td>
                 <th align="right">
                     <font size="1">Order Status:</font>

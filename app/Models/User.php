@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'timezone'
     ];
 
     /**
@@ -41,4 +42,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getTimeZoneAttribute ($value): string
+    {
+    return $value == config('app.timezone') || empty($value) ? config('app.timezone') : $value;
+    }
+
+    public function setTimeZoneAttribute($value)
+    {
+        $this->attributes['timezone'] = $value == config('app.timezone') || is_null($value) ? null : $value;
+    }
+
+    public function getCreatedAtAttribute($value): Carbon
+    {
+        return Carbon::parse($value)->timezone(Helpers::getUserTimeZone());
+    }
+    public function getUpdatedAtAttribute($value): Carbon
+    {
+        return Carbon::parse($value)->timezone(Helpers::getUserTimeZone());
+    }
 }

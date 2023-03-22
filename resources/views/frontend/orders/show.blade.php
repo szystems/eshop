@@ -100,8 +100,12 @@
                                         <p>{{ $orders->tracking_no }}</p>
                                     </div><!-- End .col-sm-6 -->
                                     <div class="col-sm-3">
-                                        <label><strong>Order Date</strong></label>
-                                        <p>{{ date('d-m-Y', strtotime($orders->created_at)) }}</p>
+                                        <label><strong>Order Date <small>({{ Auth::user()->timezone }})</small></strong></label>
+                                        @php
+                                            $date = new DateTime($orders->created_at, new DateTimeZone(date_default_timezone_get()));
+                                            $date->setTimezone(new DateTimeZone(Auth::user()->timezone));
+                                        @endphp
+                                        <p>{{ $date->format('d-m-Y')}}</p>
                                     </div><!-- End .col-sm-6 -->
                                     @if ($orders->note != null)
                                         <div class="col-sm-12">

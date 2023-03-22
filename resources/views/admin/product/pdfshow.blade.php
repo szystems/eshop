@@ -24,9 +24,10 @@
         <font size="1">Report Date:</font>
         <font color="blue" size="1">
             @php
-                $now = date('d-m-Y');
+                $horafecha = new DateTime("now", new DateTimeZone(Auth::user()->timezone));
+                $horafecha = $horafecha->format('d-m-Y, H:i:s')
             @endphp
-            {{ $now }}
+            {{ $horafecha }} ({{ Auth::user()->timezone }})
         </font>
     </label>
     <br>

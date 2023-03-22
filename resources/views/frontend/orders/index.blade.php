@@ -56,7 +56,7 @@
                                 <table class="table table-cart table-mobile">
 									<thead>
 										<tr>
-                                            <th>Order Date</th>
+                                            <th>Order Date <small>({{ Auth::user()->timezone }})</small></th>
 											<th>Tracking Number</th>
 											<th>Total</th>
                                             <th>Status</th>
@@ -68,7 +68,11 @@
 
                                         @foreach ($orders as $item)
                                             <tr>
-                                                <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
+                                                @php
+                                                    $date = new DateTime($item->created_at, new DateTimeZone(date_default_timezone_get()));
+                                                    $date->setTimezone(new DateTimeZone(Auth::user()->timezone));
+                                                @endphp
+                                                <td>{{ $date->format('d-m-Y') }}</td>
                                                 <td class="product-col">
                                                     <div class="product">
                                                         <h3 class="product-title">
