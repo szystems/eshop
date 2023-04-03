@@ -127,7 +127,7 @@
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
-                                    <label for="register-password-2">{{ __('Password') }} *</label>
+                                    <label for="register-password-2">{{ __('Timezone') }} *</label>
                                     <select class="form-control" name="timezone" id="timezone">
                                         <option selected value="UTC">UTC (UTC +00:00)</option>
                                         @foreach(Helpers::getTimeZoneList() as $timezone => $timezone_gmt_diff)

@@ -81,7 +81,7 @@
                                                     </div><!-- End .product -->
                                                 </td>
                                                 <td class="total-col">{{ $config->currency_simbol }}{{ number_format($item->total_price,2, '.', ',') }}</td>
-                                                <td class="quantity-col">{{ $item->status == '0' ?'Pending' : 'Completed' }}
+                                                <td class="quantity-col">{{ $item->status == '0' ?'Pending' : 'Completed' }}</td>
                                                 <td class="remove-col">
                                                     <a href="{{ url('view-order/'.$item->id) }}" class="btn btn-outline-primary-2"><i class="icon-eye"></i><span>View</span></a>
                                                 </td>

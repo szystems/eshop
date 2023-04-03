@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function indexorders()
     {
-        $orders = Order::where('user_id', Auth::id())->get();
+        $orders = Order::where('user_id', Auth::id())->orderBy('created_at','desc')->get();
         $cartProducts = Cart::where('user_id', Auth::id())->get();
         $config = Config::first();
         return view('frontend.orders.index', compact('orders','cartProducts','config'));

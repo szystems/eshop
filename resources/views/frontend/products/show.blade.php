@@ -57,7 +57,12 @@
 
                             <div class="col-md-6 col-lg-5">
                                 <div class="product-details product_data">
-                                    <h1 class="product-title">{{ $product->name }}</h1>
+                                    <h1 class="product-title">
+                                        {{ $product->name }}
+                                    </h1>
+                                    @if ($product->trending == "1")
+                                            <span class="product-label label-sale">{{ $product->trending == '1'? 'Trending':''}}</span>
+                                        @endif
                                     @php
                                         $rating = number_format($rating_value)*20;
                                     @endphp
